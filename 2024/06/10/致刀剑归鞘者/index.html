@@ -3,33 +3,23 @@
 <html class="article-header-style-default">
 <head>
 	
-	<title>DFSS:Distributed-File-Sync-System - Zichen&#39;s Blog</title>
+	<title>致刀剑归鞘者 - Zichen&#39;s Blog</title>
 	<meta charset="utf-8">
 	
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	
-	<meta name="description" content="本项目为解决跨服务器文件同步的问题而开发，主要功能为：  使用P2P架构实现文件共享与同步 使用Raft算法实现文件同步的一致性 使用imgui和glfw实现图像化界面 使用定时器实现定时同步 使用HTTP协议，WinSocket进行文件传输  项目设计系统本身使用p2p架构，每个节点都维护一个文件存储空间，同时存储了本节点已知的其他节点和数据源。用户可通过可视化界面对系统进行操作，主要功能有：">
+	<meta name="description" content="首先恭喜大家，高考结束了，高中时代结束了。 这是一个阶段的结束，也是一个新的开始。有些人也许计划去旅行，也许计划去网吧通宵，也许计划大醉一场，也许也会突然失去目标而变得迷茫。这似乎是一生中最放松也最应该放松的时候。 放松当然没错，但作为一个即将毕业的大学生，我首先建议各位思考一下：我们接下来面对的大学，其意义是什么？ 有些人只要求一纸学历，日后能够毕业即可；有些人想大学继续努力，卷绩点卷竞赛卷科研">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DFSS:Distributed-File-Sync-System">
-<meta property="og:url" content="http://example.com/2024/06/06/DFSS/index.html">
+<meta property="og:title" content="致刀剑归鞘者">
+<meta property="og:url" content="http://example.com/2024/06/10/%E8%87%B4%E5%88%80%E5%89%91%E5%BD%92%E9%9E%98%E8%80%85/index.html">
 <meta property="og:site_name" content="Zichen&#39;s Blog">
-<meta property="og:description" content="本项目为解决跨服务器文件同步的问题而开发，主要功能为：  使用P2P架构实现文件共享与同步 使用Raft算法实现文件同步的一致性 使用imgui和glfw实现图像化界面 使用定时器实现定时同步 使用HTTP协议，WinSocket进行文件传输  项目设计系统本身使用p2p架构，每个节点都维护一个文件存储空间，同时存储了本节点已知的其他节点和数据源。用户可通过可视化界面对系统进行操作，主要功能有：">
+<meta property="og:description" content="首先恭喜大家，高考结束了，高中时代结束了。 这是一个阶段的结束，也是一个新的开始。有些人也许计划去旅行，也许计划去网吧通宵，也许计划大醉一场，也许也会突然失去目标而变得迷茫。这似乎是一生中最放松也最应该放松的时候。 放松当然没错，但作为一个即将毕业的大学生，我首先建议各位思考一下：我们接下来面对的大学，其意义是什么？ 有些人只要求一纸学历，日后能够毕业即可；有些人想大学继续努力，卷绩点卷竞赛卷科研">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/image/imag.png">
-<meta property="og:image" content="http://example.com/image/imag-1.png">
-<meta property="og:image" content="http://example.com/image/imag-2.png">
-<meta property="og:image" content="http://example.com/image/imag-3.png">
-<meta property="og:image" content="http://example.com/image/image-4.png">
-<meta property="og:image" content="http://example.com/image/image-5.png">
-<meta property="og:image" content="http://example.com/image/image-6.png">
-<meta property="og:image" content="http://example.com/image/image-7.png">
-<meta property="og:image" content="http://example.com/image/image-8.png">
-<meta property="article:published_time" content="2024-06-06T06:07:54.000Z">
-<meta property="article:modified_time" content="2024-06-07T02:14:31.977Z">
+<meta property="article:published_time" content="2024-06-09T16:41:47.000Z">
+<meta property="article:modified_time" content="2024-06-10T00:57:15.915Z">
 <meta property="article:author" content="Zichen">
-<meta property="article:tag" content="项目记录">
+<meta property="article:tag" content="随笔">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/image/imag.png">
 
 	<meta name="theme-color" content="#9D3526">
 	<meta name="theme-color-rgb" content="157,53,38">
@@ -615,13 +605,13 @@
 	<article class="post post-full card bg-white shadow-sm border-0 ">
 	<header class="post-header text-center">
 		
-		<a class="post-title" href="/2024/06/06/DFSS/">DFSS:Distributed-File-Sync-System</a>
+		<a class="post-title" href="/2024/06/10/%E8%87%B4%E5%88%80%E5%89%91%E5%BD%92%E9%9E%98%E8%80%85/">致刀剑归鞘者</a>
 		<div class="post-meta">
 			
 						
 						<div class="post-meta-detail post-meta-detail-time">
 							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2024-6-6 14:07:54 | 编辑于 2024-6-7 10:14:31">2024-6-6 14:07
+							<time title="发布于 2024-6-10 0:41:47 | 编辑于 2024-6-10 8:57:15">2024-6-10 0:41
 							</time>
 						</div>
 					
@@ -630,7 +620,7 @@
 						
 						<div class="post-meta-detail post-meta-detail-edittime">
 							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2024-6-6 14:07:54 | 编辑于 2024-6-7 10:14:31">2024-6-7 10:14
+							<time title="发布于 2024-6-10 0:41:47 | 编辑于 2024-6-10 8:57:15">2024-6-10 8:57
 							</time>
 						</div>
 					
@@ -639,7 +629,7 @@
 						
 						<div class="post-meta-detail post-meta-detail-categories">
 							<i class="fa fa-bookmark-o" aria-hidden="true"></i>
-							<a class="post-meta-detail-catagory-link" href="/categories/CS%E6%8A%80%E6%9C%AF%E7%9B%B8%E5%85%B3/">CS技术相关</a>
+							<a class="post-meta-detail-catagory-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
 						</div>
 					
 						
@@ -647,7 +637,7 @@
 						
 						<div class="post-meta-detail post-meta-detail-words">
 							<i class="fa fa-file-word-o" aria-hidden="true"></i>
-							721 字
+							851 字
 						</div>
 					
 						
@@ -655,7 +645,7 @@
 						
 						<div class="post-meta-detail post-meta-detail-readingtime">
 							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
-							3 分钟
+							2 分钟
 						</div>
 					
 		</div>
@@ -663,67 +653,16 @@
 	</header>
 
 	<div class="post-content" id="post_content">
-		<p>本项目为解决跨服务器文件同步的问题而开发，主要功能为：</p>
-<ul>
-<li>使用P2P架构实现文件共享与同步</li>
-<li>使用Raft算法实现文件同步的一致性</li>
-<li>使用imgui和glfw实现图像化界面</li>
-<li>使用定时器实现定时同步</li>
-<li>使用HTTP协议，WinSocket进行文件传输</li>
-</ul>
-<h2 id="项目设计"><a href="#项目设计" class="headerlink" title="项目设计"></a>项目设计</h2><p>系统本身使用p2p架构，每个节点都维护一个文件存储空间，同时存储了本节点已知的其他节点和数据源。用户可通过可视化界面对系统进行操作，主要功能有：</p>
-<ul>
-<li>添加数据源</li>
-<li>添加节点</li>
-<li>设置本节点文件存储路径</li>
-<li>展示当前节点信息</li>
-<li>设定同步实践</li>
-<li>手动同步</li>
-<li>退出</li>
-</ul>
-<h2 id="项目实现"><a href="#项目实现" class="headerlink" title="项目实现"></a>项目实现</h2><h3 id="实现数据同步时出现的问题"><a href="#实现数据同步时出现的问题" class="headerlink" title="实现数据同步时出现的问题"></a>实现数据同步时出现的问题</h3><h3 id="实现文件传输时出现的问题"><a href="#实现文件传输时出现的问题" class="headerlink" title="实现文件传输时出现的问题"></a>实现文件传输时出现的问题</h3><h3 id="增加线程池来完成文件同步的问题"><a href="#增加线程池来完成文件同步的问题" class="headerlink" title="增加线程池来完成文件同步的问题"></a>增加线程池来完成文件同步的问题</h3><h3 id="加入imgui后编译产生的问题"><a href="#加入imgui后编译产生的问题" class="headerlink" title="加入imgui后编译产生的问题"></a>加入imgui后编译产生的问题</h3><h2 id="项目展示"><a href="#项目展示" class="headerlink" title="项目展示"></a>项目展示</h2><p>系统图形化界面</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imag.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>添加节点：</p>
-<ul>
-<li>输入IP和端口号</li>
-<li>点击添加</li>
-</ul>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imag-1.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>添加数据源</p>
-<ul>
-<li>输入数据源文件名</li>
-<li>输入数据源路径</li>
-<li>输入哈希值</li>
-<li>点击添加</li>
-</ul>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imag-2.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>设定同步时间</p>
-<ul>
-<li>有实时同步，按分钟同步等多种选择</li>
-</ul>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imag-3.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>点击查看当前节点信息</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/image-4.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>设置本节点文件存储路径</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/image-5.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>测试文件夹结构</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/image-6.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>待同步文件</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/image-7.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>同步文件结果</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/image-8.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
-
-<p>ps：视频音频图片等文件也可以进行传输和同步，在进行文件传输时，对于文本文件会添加HTTP相应头，如果是非结构化的文件则不添加</p>
-<p>代码结构：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">├── .vscode/</span><br><span class="line">│   └── c_cpp_properties.json</span><br><span class="line">│   └── launch.json</span><br><span class="line">│   └── settings.json</span><br><span class="line">│   └── tasks.json</span><br><span class="line">├── build/</span><br><span class="line">│   ├── .cmake/</span><br><span class="line">│   │   ├── api/</span><br><span class="line">│   │   │   ├── v1/</span><br><span class="line">│   │   │   │   ├── query/</span><br><span class="line">│   │   │   │   │   ├── client-vscode/</span><br><span class="line">│   │   │   │   │   │   └── query.json</span><br><span class="line">│   │   │   │   ├── reply/</span><br><span class="line">│   │   │   │   │   └── cache-v2-f584b58ee08efc8eb378.json</span><br><span class="line">│   │   │   │   │   └── cmakeFiles-v1-6743e5907639a18ed5a2.json</span><br><span class="line">│   │   │   │   │   └── codemodel-v2-8e6c1f3b241872cf0c1b.json</span><br><span class="line">│   │   │   │   │   └── directory-.-Debug-d0094a50bb2071803777.json</span><br><span class="line">│   │   │   │   │   └── index-2024-06-06T07-11-04-0993.json</span><br><span class="line">│   │   │   │   │   └── target-DFSS-Debug-040f6c24d5939000d56b.json</span><br><span class="line">│   │   │   │   │   └── toolchains-v1-3a5489f92a382d3236cf.json</span><br><span class="line">│   └── CMakeCache.txt</span><br><span class="line">│   ├── CMakeFiles/</span><br><span class="line">│   │   ├── 3.25.1-msvc1/</span><br><span class="line">│   │   │   └── CMakeCCompiler.cmake</span><br><span class="line">│   │   │   └── CMakeCXXCompiler.cmake</span><br><span class="line">│   │   │   └── CMakeDetermineCompilerABI_C.bin    </span><br><span class="line">│   │   │   └── CMakeDetermineCompilerABI_CXX.bin  </span><br><span class="line">│   │   │   └── CMakeRCCompiler.cmake</span><br><span class="line">│   │   │   └── CMakeSystem.cmake</span><br><span class="line">│   │   │   ├── CompilerIdC/</span><br><span class="line">│   │   │   │   └── a.exe</span><br><span class="line">│   │   │   │   └── CMakeCCompilerId.c</span><br><span class="line">│   │   │   │   ├── tmp/</span><br><span class="line">│   │   │   ├── CompilerIdCXX/</span><br><span class="line">│   │   │   │   └── a.exe</span><br><span class="line">│   │   │   │   └── CMakeCXXCompilerId.cpp</span><br><span class="line">│   │   │   │   ├── tmp/</span><br><span class="line">│   │   └── cmake.check_cache</span><br><span class="line">│   │   └── CMakeDirectoryInformation.cmake        </span><br><span class="line">│   │   └── CMakeOutput.log</span><br><span class="line">│   │   ├── DFSS.dir/</span><br><span class="line">│   │   │   └── build.make</span><br><span class="line">│   │   │   └── cmake_clean.cmake</span><br><span class="line">│   │   │   └── compiler_depend.make</span><br><span class="line">│   │   │   └── compiler_depend.ts</span><br><span class="line">│   │   │   └── depend.make</span><br><span class="line">│   │   │   └── DependInfo.cmake</span><br><span class="line">│   │   │   └── flags.make</span><br><span class="line">│   │   │   └── includes_CXX.rsp</span><br><span class="line">│   │   │   └── link.txt</span><br><span class="line">│   │   │   └── linkLibs.rsp</span><br><span class="line">│   │   │   └── objects.a</span><br><span class="line">│   │   │   └── objects1</span><br><span class="line">│   │   │   └── progress.make</span><br><span class="line">│   │   │   ├── src/</span><br><span class="line">│   │   │   │   └── imgui.cpp.obj</span><br><span class="line">│   │   │   │   └── imgui.cpp.obj.d</span><br><span class="line">│   │   │   │   └── imgui_demo.cpp.obj</span><br><span class="line">│   │   │   │   └── imgui_demo.cpp.obj.d</span><br><span class="line">│   │   │   │   └── imgui_draw.cpp.obj</span><br><span class="line">│   │   │   │   └── imgui_draw.cpp.obj.d</span><br><span class="line">│   │   │   │   └── imgui_impl_glfw.cpp.obj        </span><br><span class="line">│   │   │   │   └── imgui_impl_glfw.cpp.obj.d      </span><br><span class="line">│   │   │   │   └── imgui_impl_opengl3.cpp.obj     </span><br><span class="line">│   │   │   │   └── imgui_impl_opengl3.cpp.obj.d   </span><br><span class="line">│   │   │   │   └── imgui_tables.cpp.obj</span><br><span class="line">│   │   │   │   └── imgui_tables.cpp.obj.d</span><br><span class="line">│   │   │   │   └── imgui_widgets.cpp.obj</span><br><span class="line">│   │   │   │   └── imgui_widgets.cpp.obj.d        </span><br><span class="line">│   │   │   │   └── main.cpp.obj</span><br><span class="line">│   │   │   │   └── main.cpp.obj.d</span><br><span class="line">│   │   │   │   └── Peer.cpp.obj</span><br><span class="line">│   │   │   │   └── Peer.cpp.obj.d</span><br><span class="line">│   │   │   │   └── threadPool.cpp.obj</span><br><span class="line">│   │   │   │   └── threadPool.cpp.obj.d</span><br><span class="line">│   │   └── Makefile.cmake</span><br><span class="line">│   │   └── Makefile2</span><br><span class="line">│   │   ├── pkgRedirects/</span><br><span class="line">│   │   └── progress.marks</span><br><span class="line">│   │   └── TargetDirectories.txt</span><br><span class="line">│   └── cmake_install.cmake</span><br><span class="line">│   └── compile_commands.json</span><br><span class="line">│   └── DFSS.exe</span><br><span class="line">│   └── imgui.ini</span><br><span class="line">│   └── Makefile</span><br><span class="line">└── CMakeLists.txt</span><br><span class="line">├── file/</span><br><span class="line">│   ├── test_down_file/</span><br><span class="line">│   │   └── test.cpp</span><br><span class="line">│   │   └── test.mkv</span><br><span class="line">│   │   └── test.png</span><br><span class="line">│   │   └── test.txt</span><br><span class="line">│   ├── test_source_file/</span><br><span class="line">│   │   └── test.cpp</span><br><span class="line">│   │   └── test.exe</span><br><span class="line">│   │   └── test.mkv</span><br><span class="line">│   │   └── test.png</span><br><span class="line">│   │   └── test.txt</span><br><span class="line">└── imgui.ini</span><br><span class="line">├── lib/</span><br><span class="line">│   └── DataSource.h</span><br><span class="line">│   ├── glfw/</span><br><span class="line">│   │   ├── include/</span><br><span class="line">│   │   │   ├── GLFW/</span><br><span class="line">│   │   │   │   └── glfw3.h</span><br><span class="line">│   │   │   │   └── glfw3native.h</span><br><span class="line">│   │   ├── lib/</span><br><span class="line">│   │   │   └── glfw3.dll</span><br><span class="line">│   │   │   └── libglfw3.a</span><br><span class="line">│   │   │   └── libglfw3dll.a</span><br><span class="line">│   │   │   └── opengl32.dll</span><br><span class="line">│   └── imconfig.h</span><br><span class="line">│   └── imgui.h</span><br><span class="line">│   └── imgui_impl_glfw.h</span><br><span class="line">│   └── imgui_impl_opengl3.h</span><br><span class="line">│   └── imgui_impl_opengl3_loader.h</span><br><span class="line">│   └── imgui_internal.h</span><br><span class="line">│   └── imstb_rectpack.h</span><br><span class="line">│   └── imstb_textedit.h</span><br><span class="line">│   └── imstb_truetype.h</span><br><span class="line">│   └── Peer.h</span><br><span class="line">│   └── threadPool.h</span><br><span class="line">│   └── timer.h</span><br><span class="line">└── README.md</span><br><span class="line">├── src/</span><br><span class="line">│   └── imgui.cpp</span><br><span class="line">│   └── imgui_demo.cpp</span><br><span class="line">│   └── imgui_draw.cpp</span><br><span class="line">│   └── imgui_impl_glfw.cpp</span><br><span class="line">│   └── imgui_impl_opengl3.cpp</span><br><span class="line">│   └── imgui_tables.cpp</span><br><span class="line">│   └── imgui_widgets.cpp</span><br><span class="line">│   └── main.cpp</span><br><span class="line">│   └── Peer.cpp</span><br><span class="line">└─  └── threadPool.cpp</span><br></pre></td></tr></table></figure>
+		<p>首先恭喜大家，高考结束了，高中时代结束了。</p>
+<p>这是一个阶段的结束，也是一个新的开始。有些人也许计划去旅行，也许计划去网吧通宵，也许计划大醉一场，也许也会突然失去目标而变得迷茫。这似乎是一生中最放松也最应该放松的时候。</p>
+<p>放松当然没错，但作为一个即将毕业的大学生，我首先建议各位思考一下：我们接下来面对的大学，其意义是什么？</p>
+<p>有些人只要求一纸学历，日后能够毕业即可；有些人想大学继续努力，卷绩点卷竞赛卷科研卷实习；有些人想大学做些自己喜欢的事情，可以多旅行多尝试新鲜事物；也有人可能只想躺平，每天宅着于游戏外卖为伴。</p>
+<p>这些选择当然都没错，但大家要想好：大学里，自己对自己负责，辅导员只负责安全，老师只负责讲课。我们的目光可以适当长远一些，我们在大学的选择，在未来就是各自要走的路。大家想走什么路？</p>
+<p>ps：高中毕业的假期是提前了解大学生活的机会</p>
+<p>很多人都会提起一个词——“卷”，我建议的卷和很多人的卷不一样，我们不要无意义的卷，而是要去实实在在的努力进步。当你发现做一件事已经对你的能力提升没有帮助，单纯是为了在某项竞争中脱颖而出时，那就是无意义的卷。至于日常努力学习，努力收集资料信息，努力利用大学的平台，这些都是有意义的。大学里有些时候是被迫卷，但如果自己有选择的话，我们还是尽量不要做无意义的卷。</p>
+<p>同样，大学里，也是各位第一次离开学校和家长的重重保护，进入一个小社会，请大家做好心理准备：在大学里你可能是一个人离家千里独自生活，可能会遇见各种奇葩的舍友，各种离谱的故事，可能发现有些老师上课根本学不到东西，会慢慢体会到社会的全貌，会慢慢发现自己需要花时间精力的远远不止学习，还有社交，信息收集，各种琐事。所以，时间合理分配和效率提升是大学的必修课，很多时候我们不是不想改变现状，而是没有时间精力去改变现状。</p>
+<p>最后，我想聊一些诗意的部分，很多人上大学上着上着就变得心中无路，眼里无光，有时是因为日复一日的沉浸在繁忙中，有时是因为一次又一次现实的打击，有时是因为人生岔路口处的迷茫，但我想，这时我们更应该思考自己为什么而来到大学，究竟想做些什么，想成什么样的人。确定好目标，那就放手去做吧！管他前路究竟如何，管他彼岸是不是锦绣山河，管他路上多少艰难坎坷，只管去攀一座山，看一场雪，追一个梦……</p>
+<p>愿大家永远少年。</p>
 
 	</div>
 
@@ -734,7 +673,7 @@
 	
 		<div class="post-tags">
 			<i class="fa fa-tags" aria-hidden="true"></i>
-			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/" rel="tag">项目记录</a>
+			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
 		</div>
 	
 </article>
@@ -776,7 +715,7 @@
 				<span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
 			</button>
 		</a>
-		<a target="_blank" class="no-pjax icon-telegram" href="https://telegram.me/share/url?url=http://example.com/2024/06/06/DFSS/&text=DFSS:Distributed-File-Sync-System" tooltip="分享到 Telegram">
+		<a target="_blank" class="no-pjax icon-telegram" href="https://telegram.me/share/url?url=http://example.com/2024/06/10/%E8%87%B4%E5%88%80%E5%89%91%E5%BD%92%E9%9E%98%E8%80%85/&text=致刀剑归鞘者" tooltip="分享到 Telegram">
 			<button class="btn btn-icon btn-primary" style="background: #42a5f5;border: none;">
 				<span class="btn-inner--icon"><i class="fa fa-telegram"></i></span>
 			</button>
@@ -793,14 +732,12 @@
 </div>
 <script type="text/javascript">
 	socialShare("#share", {
-	    title : 'DFSS:Distributed-File-Sync-System',
-	    description : `本项目为解决跨服务器文件同步的问题而开发，主要功能为：
-
-使用P2P架构实现文件共享与同步
-使用Ra...`,
+	    title : '致刀剑归鞘者',
+	    description : `首先恭喜大家，高考结束了，高中时代结束了。
+这是一个阶段的结束，也是一个新的开始。有些人也许计划去旅...`,
 	    wechatQrcodeTitle : "分享到微信",
 	    wechatQrcodeHelper : '微信扫描二维码',
-	    source : 'http://example.com/2024/06/06/DFSS/'
+	    source : 'http://example.com/2024/06/10/%E8%87%B4%E5%88%80%E5%89%91%E5%BD%92%E9%9E%98%E8%80%85/'
 	});
 	$("#share_show")[0].onclick = function(){
 		$("#share_container").addClass("opened");
@@ -849,7 +786,7 @@
 
 
 
-<div class="post-navigation card shadow-sm"><div class="post-navigation-item post-navigation-pre"><span class="page-navigation-extra-text"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>上一篇</span><a href="/2024/06/10/%E8%87%B4%E5%88%80%E5%89%91%E5%BD%92%E9%9E%98%E8%80%85/" rel="prev"> 致刀剑归鞘者</a></div><div class="post-navigation-item post-navigation-next"><span class="page-navigation-extra-text">下一篇 <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span><a href="/2024/06/05/E-detect/" rel="next"> E-detect:Multimodal-assisted-monitoring-system-for-the-elderly</a></div></div>
+<div class="post-navigation card shadow-sm"><div class="post-navigation-item post-navigation-pre"></div><div class="post-navigation-item post-navigation-next"><span class="page-navigation-extra-text">下一篇 <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span><a href="/2024/06/06/DFSS/" rel="next"> DFSS:Distributed-File-Sync-System</a></div></div>
 
 
 
