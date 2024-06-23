@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+
+<html class="article-header-style-default">
+<head>
+	
+	<title>汇编实验报告 - Zichen&#39;s Blog</title>
+	<meta charset="utf-8">
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	
+	<meta name="description" content="汇编实验报告question1: 查找匹配字符串1.设计说明：下面是比较过程中寄存器的使用： si：存放原串首地址 di：存放目的串首地址 cl：关键字长度 (keyword长度) ax：目标串(sentence)的偏移量  子程序说明:part_1：输入Sentence并判断 part_2：进行字符串比较，内循环 part_3：改变进行比对的字符串区间，外循环，BX++,清空si，di继续内循环">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编实验报告">
+<meta property="og:url" content="http://example.com/2024/06/23/%E6%B1%87%E7%BC%96%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="Zichen&#39;s Blog">
+<meta property="og:description" content="汇编实验报告question1: 查找匹配字符串1.设计说明：下面是比较过程中寄存器的使用： si：存放原串首地址 di：存放目的串首地址 cl：关键字长度 (keyword长度) ax：目标串(sentence)的偏移量  子程序说明:part_1：输入Sentence并判断 part_2：进行字符串比较，内循环 part_3：改变进行比对的字符串区间，外循环，BX++,清空si，di继续内循环">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/imagehb1.png">
+<meta property="og:image" content="http://example.com/image/imagehb2.png">
+<meta property="og:image" content="http://example.com/image/imagehb3.png">
+<meta property="og:image" content="http://example.com/image/imagehb-2.png">
+<meta property="og:image" content="http://example.com/image/imagehb-3.png">
+<meta property="og:image" content="http://example.com/image/imagehb4.png">
+<meta property="og:image" content="http://example.com/image/imagehb5.png">
+<meta property="og:image" content="http://example.com/image/imagehb6.png">
+<meta property="og:image" content="http://example.com/image/imagehb7.png">
+<meta property="article:published_time" content="2024-06-23T09:20:35.000Z">
+<meta property="article:modified_time" content="2024-06-23T09:42:22.476Z">
+<meta property="article:author" content="Zichen">
+<meta property="article:tag" content="项目记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/imagehb1.png">
+
+	<meta name="theme-color" content="#9D3526">
+	<meta name="theme-color-rgb" content="157,53,38">
+	<meta name="theme-color-origin" content="#9D3526">
+	<meta name="argon-enable-custom-theme-color" content="true">
+	<meta name="theme-card-radius" content="4">
+	<meta name="theme-version" content="1.0.2">
+	<link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
+
+	
+<link rel="stylesheet" href="/assets/argon_css_merged.css">
+
+	
+<link rel="stylesheet" href="/style.css">
+
+	
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Open+Sans:300,400,600,700|Noto+Serif+SC:300,600&display=swap.css">
+
+	
+<script src="/assets/argon_js_merged.js"></script>
+
+	
+<script src="/assets/js/argon.min.js"></script>
+
+	
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+	
+
+	<script>
+		var argonConfig = {
+			language: "zh_CN",
+			
+				zoomify: {
+					duration: 200,
+					easing: "cubic-bezier(0.4,0,0,1)",
+					scale: 0.9
+				},
+			
+			pangu: "false",
+			
+				lazyload: {
+					threshold: 800,
+					effect: "fadeIn"
+				},
+			
+			disable_pjax: false,
+			headroom: false
+		}
+	</script>
+	<script>
+		var darkmodeAutoSwitch = "false";
+		function setDarkmode(enable){
+			if (enable == true){
+				$("html").addClass("darkmode");
+			}else{
+				$("html").removeClass("darkmode");
+			}
+			$(window).trigger("scroll");
+		}
+		function toggleDarkmode(){
+			if ($("html").hasClass("darkmode")){
+				setDarkmode(false);
+				sessionStorage.setItem("Argon_Enable_Dark_Mode", "false");
+			}else{
+				setDarkmode(true);
+				sessionStorage.setItem("Argon_Enable_Dark_Mode", "true");
+			}
+		}
+		if (sessionStorage.getItem("Argon_Enable_Dark_Mode") == "true"){
+			setDarkmode(true);
+		}
+		function toggleDarkmodeByPrefersColorScheme(media){
+			if (sessionStorage.getItem('Argon_Enable_Dark_Mode') == "false" || sessionStorage.getItem('Argon_Enable_Dark_Mode') == "true"){
+				return;
+			}
+			if (media.matches){
+				setDarkmode(true);
+			}else{
+				setDarkmode(false);
+			}
+		}
+		function toggleDarkmodeByTime(){
+			if (sessionStorage.getItem('Argon_Enable_Dark_Mode') == "false" || sessionStorage.getItem('Argon_Enable_Dark_Mode') == "true"){
+				return;
+			}
+			let hour = new Date().getHours();
+			if (hour < 7 || hour >= 22){
+				setDarkmode(true);
+			}else{
+				setDarkmode(false);
+			}
+		}
+		if (darkmodeAutoSwitch == 'system'){
+			var darkmodeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+			darkmodeMediaQuery.addListener(toggleDarkmodeByPrefersColorScheme);
+			toggleDarkmodeByPrefersColorScheme(darkmodeMediaQuery);
+		}
+		if (darkmodeAutoSwitch == 'time'){
+			toggleDarkmodeByTime();
+		}
+		if (darkmodeAutoSwitch == 'alwayson'){
+			setDarkmode(true);
+		}
+
+		function toggleAmoledDarkMode(){
+			$("html").toggleClass("amoled-dark");
+			if ($("html").hasClass("amoled-dark")){
+				localStorage.setItem("Argon_Enable_Amoled_Dark_Mode", "true");
+			}else{
+				localStorage.setItem("Argon_Enable_Amoled_Dark_Mode", "false");
+			}
+		}
+		if (localStorage.getItem("Argon_Enable_Amoled_Dark_Mode") == "true"){
+			$("html").addClass("amoled-dark");
+		}else if (localStorage.getItem("Argon_Enable_Amoled_Dark_Mode") == "false"){
+			$("html").removeClass("amoled-dark");
+		}
+	</script>
+	<script>
+		if (navigator.userAgent.indexOf("Safari") !== -1 && navigator.userAgent.indexOf("Chrome") === -1){
+			$("html").addClass("using-safari");
+		}
+	</script>
+
+	
+		
+<script src="/assets/vendor/smoothscroll/smoothscroll1.js"></script>
+
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+
+<style id="themecolor_css">
+	
+	:root{
+		--themecolor: #9D3526;
+		--themecolor-dark0: #933224;
+		--themecolor-dark: #882E21;
+		--themecolor-dark2: #74271C;
+		--themecolor-dark3: #5F2017;
+		--themecolor-light: #C64330;
+		--themecolor-rgbstr: 157,53,38;
+		--themecolor-gradient: linear-gradient(150deg,var(--themecolor-light) 15%, var(--themecolor) 70%, var(--themecolor-dark0) 94%);
+
+	}
+</style>
+<style id="theme_cardradius_css">
+	:root{
+		--card-radius: 4px;
+	}
+</style>
+
+<body>
+<div id="toolbar">
+	<header class="header-global">
+		<nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light bg-primary headroom--not-bottom headroom--not-top headroom--pinned">
+			<div class="container">
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<a class="navbar-brand" href="/">Zichen&#39;s Blog</a>
+				<div class="navbar-collapse collapse" id="navbar_global">
+					<div class="navbar-collapse-header">
+						<div class="row">
+							<div class="col-6 collapse-brand"></div>
+							<div class="col-6 collapse-close">
+								<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+									<span></span>
+									<span></span>
+								</button>
+							</div>
+						</div>
+					</div>
+					<ul id="navbar_search_btn_mobile" class="navbar-nav align-items-lg-center ml-lg-auto">
+						<li class="nav-item" data-toggle="modal" data-target="#argon_search_modal" style="padding-left: 5px;">
+							<a class="nav-link nav-link-icon">
+								<i class="fa fa-search"></i>
+								<span class="nav-link-inner--text d-lg-none">搜索</span>
+							</a>
+						</li>
+					</ul>
+					
+							<ul class='navbar-nav navbar-nav-hover align-items-lg-center'>
+								
+										<li class='nav-item'>
+											<a href='/' class='nav-link' >
+												<i class='ni ni-book-bookmark d-lg-none'></i>
+												<span class='nav-link-inner--text'>首页</span>
+											</a>
+											
+										</li>
+									
+										<li class='nav-item'>
+											<a href='/2024/06/05/hello-world' class='nav-link' >
+												<i class='ni ni-book-bookmark d-lg-none'></i>
+												<span class='nav-link-inner--text'>关于我</span>
+											</a>
+											
+										</li>
+									
+										<li class='nav-item'>
+											<a href='/archives' class='nav-link' >
+												<i class='ni ni-book-bookmark d-lg-none'></i>
+												<span class='nav-link-inner--text'>归档</span>
+											</a>
+											
+										</li>
+									
+										<li class='nav-item dropdown'>
+											<a href='' class='nav-link' onclick='return false;' data-toggle='dropdown' no-pjax>
+												<i class='ni ni-book-bookmark d-lg-none'></i>
+												<span class='nav-link-inner--text'>分类</span>
+											</a>
+											
+													<div class="dropdown-menu">
+														
+															<a href='/' class='dropdown-item'>杂项</a>
+														
+															<a href='/' class='dropdown-item'>CS技术相关</a>
+														
+													</div>
+												
+										</li>
+									
+							</ul>
+						
+					<ul class="navbar-nav align-items-lg-center ml-lg-auto">
+						<li class="nav-item" data-toggle="modal" data-target="#argon_search_modal" id="navbar_search_btn_pc">
+							<a class="nav-link nav-link-icon">
+								<i class="fa fa-search"></i>
+								<span class="nav-link-inner--text d-lg-none">搜索</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				
+				<div id="navbar_menu_mask" data-toggle="collapse" data-target="#navbar_global"></div>
+			</div>
+		</nav>
+	</header>
+</div>
+<div class="modal fade" id="argon_search_modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">搜索</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- TODO -->
+<div class="form-group mb-3">
+	<div class="input-group input-group-alternative">
+		<div class="input-group-prepend">
+			<span class="input-group-text"><i class="fa fa-search"></i></span>
+		</div>
+		<input id="local-search-input" class="form-control" placeholder="搜索什么..." type="text"  autocomplete="off" data-search.path="search.xml" data-config.root="/">
+	</div>
+	<div id="local-search-result"></div>
+</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--Banner-->
+<section id="banner" class="banner section section-lg section-shaped">
+	<div class="shape shape-style-1 shape-primary">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+
+	
+	<div id="banner_container" class="banner-container container text-center">
+		
+			<div class="banner-title text-white"><span class="banner-title-inner">       I do not know in the celestial sphere palace,           What name does this festive night go by?</span>
+		
+		<span class="banner-subtitle d-block">—— from 2024/6/5</span></div>
+	</div>
+	
+		<style>
+			section.banner{
+				background-image: url(/assets/img/wolf.jpg) !important;
+			}
+		</style>
+	
+</section>
+
+
+	<style>
+		#content:before {
+			content: '';
+			display: block;
+			position: fixed;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			z-index: -2;
+			background: url(/assets/img/wolf.jpg);
+			background-position: center;
+			background-size: cover;
+			background-repeat: no-repeat;
+			opacity: 1;
+			transition: opacity .5s ease;
+		}
+		html.darkmode #content:before{
+			filter: brightness(0.65);
+		}
+		
+			#content:after {
+				content: '';
+				display: block;
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				z-index: -2;
+				background: url(/assets/img/wolf.jpg);
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				opacity: 0;
+				transition: opacity .5s ease;
+			}
+			html.darkmode #content:after {
+				opacity: 1;
+			}
+			html.darkmode #content:before {
+				opacity: 0;
+			}
+		
+		
+			#banner, #banner .shape {
+				background: transparent !important;
+			}
+		
+	</style>
+
+
+
+
+<div id="float_action_buttons" class="float-action-buttons fabtns-unloaded">
+	<button id="fabtn_toggle_sides" class="btn btn-icon btn-neutral fabtn shadow-sm" type="button" aria-hidden="true" tooltip-move-to-left="移至左侧" tooltip-move-to-right="移至右侧">
+		<span class="btn-inner--icon fabtn-show-on-right"><i class="fa fa-caret-left"></i></span>
+		<span class="btn-inner--icon fabtn-show-on-left"><i class="fa fa-caret-right"></i></span>
+	</button>
+	<button id="fabtn_back_to_top" class="btn btn-icon btn-neutral fabtn shadow-sm" type="button" aria-label="Back To Top" tooltip="回到顶部">
+		<span class="btn-inner--icon"><i class="fa fa-angle-up"></i></span>
+	</button>
+	<button id="fabtn_go_to_comment" class="btn btn-icon btn-neutral fabtn shadow-sm d-none" type="button" style='display: none;'  aria-label="Comment" tooltip="评论">
+		<span class="btn-inner--icon"><i class="fa fa-comment-o"></i></span>
+	</button>
+	<button id="fabtn_toggle_darkmode" class="btn btn-icon btn-neutral fabtn shadow-sm" type="button" style='display: none;'  aria-label="Toggle Darkmode" tooltip-darkmode="夜间模式" tooltip-blackmode="暗黑模式" tooltip-lightmode="日间模式">
+		<span class="btn-inner--icon"><i class="fa fa-moon-o"></i><i class='fa fa-lightbulb-o'></i></span>
+	</button>
+	<button id="fabtn_toggle_blog_settings_popup" class="btn btn-icon btn-neutral fabtn shadow-sm" type="button"  aria-label="Open Blog Settings Menu" tooltip="设置">
+		<span class="btn-inner--icon"><i class="fa fa-cog"></i></span>
+	</button>
+	<div id="fabtn_blog_settings_popup" class="card shadow-sm" style="opacity: 0;" aria-hidden="true">
+		<div id="close_blog_settings"><i class="fa fa-close"></i></div>
+		<div class="blog-setting-item mt-3">
+			<div style="transform: translateY(-4px);"><div id="blog_setting_toggle_darkmode_and_amoledarkmode" tooltip-switch-to-darkmode="切换到夜间模式" tooltip-switch-to-blackmode="切换到暗黑模式"><span>夜间模式</span><span>暗黑模式</span></div></div>
+			<div style="flex: 1;"></div>
+			<label id="blog_setting_darkmode_switch" class="custom-toggle">
+				<span class="custom-toggle-slider rounded-circle"></span>
+			</label>
+		</div>
+		<div class="blog-setting-item mt-3">
+			<div style="flex: 1;">字体</div>
+			<div>
+				<button id="blog_setting_font_sans_serif" type="button" class="blog-setting-font btn btn-outline-primary blog-setting-selector-left">Sans Serif</button><button id="blog_setting_font_serif" type="button" class="blog-setting-font btn btn-outline-primary blog-setting-selector-right">Serif</button>
+			</div>
+		</div>
+		<div class="blog-setting-item mt-3">
+			<div style="flex: 1;">阴影</div>
+			<div>
+				<button id="blog_setting_shadow_small" type="button" class="blog-setting-shadow btn btn-outline-primary blog-setting-selector-left">浅阴影</button><button id="blog_setting_shadow_big" type="button" class="blog-setting-shadow btn btn-outline-primary blog-setting-selector-right">深阴影</button>
+			</div>
+		</div>
+		<div class="blog-setting-item mt-3 mb-3">
+			<div style="flex: 1;">滤镜</div>
+			<div id="blog_setting_filters" class="ml-3">
+				<button id="blog_setting_filter_off" type="button" class="blog-setting-filter-btn ml-0" filter-name="off">关闭</button>
+				<button id="blog_setting_filter_sunset" type="button" class="blog-setting-filter-btn" filter-name="sunset">日落</button>
+				<button id="blog_setting_filter_darkness" type="button" class="blog-setting-filter-btn" filter-name="darkness">暗化</button>
+				<button id="blog_setting_filter_grayscale" type="button" class="blog-setting-filter-btn" filter-name="grayscale">灰度</button>
+			</div>
+		</div>
+		<div class="blog-setting-item mb-3">
+			<div id="blog_setting_card_radius_to_default" style="cursor: pointer;" tooltip="恢复默认">圆角</div>
+			<div style="flex: 1;margin-left: 20px;margin-right: 8px;transform: translateY(2px);">
+				<div id="blog_setting_card_radius"></div>
+			</div>
+		</div>
+		
+			<div class="blog-setting-item mt-1 mb-3">
+				<div style="flex: 1;">主题色</div>
+				<div id="theme-color-picker" class="ml-3"></div>
+			</div>
+		
+	</div>
+	<button id="fabtn_open_sidebar" class="btn btn-icon btn-neutral fabtn shadow-sm" type="button" aria-label="Open Sidebar Menu" tooltip="菜单">
+		<span class="btn-inner--icon"><i class="fa fa-bars"></i></span>
+	</button>
+	<button id="fabtn_reading_progress" class="btn btn-icon btn-neutral fabtn shadow-sm" type="button" aria-hidden="true" tooltip="阅读进度">
+		<div id="fabtn_reading_progress_bar" style="width: 0%;"></div>
+		<span id="fabtn_reading_progress_details">0%</span>
+	</button>
+</div>
+
+<div id="content" class="site-content">
+
+
+
+
+
+
+
+
+
+<div class="page-information-card-container">
+	
+</div>
+
+<div id="sidebar_mask"></div>
+<aside id="leftbar" class="leftbar widget-area" role="complementary">
+		
+		<div id="leftbar_part1" class="widget widget_search card bg-white shadow-sm border-0">
+			<div class="leftbar-banner card-body">
+				<span class="leftbar-banner-title text-white">Zichen&#39;s Blog</span>
+				
+				
+			</div>
+			
+			
+				<ul id='leftbar_part1_menu' class='leftbar-menu'>
+					<li class='leftbar-menu-item'><a href='/'>首页</a></li><li class='leftbar-menu-item'><a href='/archives'>归档</a></li>
+				</ul>
+			
+			<div class="card-body text-center leftbar-search-button">
+				<button id="leftbar_search" class="btn btn-secondary btn-lg active btn-sm btn-block border-0" role="button" data-toggle="modal" data-target="#argon_search_modal" >
+					<i class="menu-item-icon fa fa-search mr-0"></i> 搜索
+				</button>
+			</div>
+		</div>
+		<div id="leftbar_part2" class="widget widget_search card bg-white shadow-sm border-0">
+			<div id="leftbar_part2_inner" class="card-body">
+				
+				<div class="nav-wrapper" style="padding-top: 5px;">
+	                <ul class="nav nav-pills nav-fill" role="tablist">
+						
+							<li class="nav-item sidebar-tab-switcher">
+								<a class="active show" id="leftbar_tab_catalog_btn" data-toggle="tab" href="#leftbar_tab_catalog" role="tab" aria-controls="leftbar_tab_catalog" no-pjax>文章目录</a>
+							</li>
+						
+						<li class="nav-item sidebar-tab-switcher">
+							<a class="" id="leftbar_tab_overview_btn" data-toggle="tab" href="#leftbar_tab_overview" role="tab" aria-controls="leftbar_tab_overview" no-pjax>站点概览</a>
+						</li>
+	                </ul>
+				</div>
+				<div>
+					<div class="tab-content" style="padding: 10px 10px 0 10px;">
+						
+							<div class="tab-pane fade active show" id="leftbar_tab_catalog" role="tabpanel" aria-labelledby="leftbar_tab_catalog_btn">
+								<div id="leftbar_catalog"></div>
+								<script type="text/javascript">
+									$(function () {
+										$(document).headIndex({
+											articleWrapSelector: '#post_content',
+											indexBoxSelector: '#leftbar_catalog',
+											subItemBoxClass: "index-subItem-box",
+											itemClass: "index-item",
+											linkClass: "index-link",
+											offset: 80,
+										});
+									})
+								</script>
+								
+							</div>
+						
+						<div class="tab-pane fade text-center" id="leftbar_tab_overview" role="tabpanel" aria-labelledby="leftbar_tab_overview_btn">
+							<img id="leftbar_overview_author_image" src="/assets/img/auther1.jpg" class="img-fluid rounded-circle shadow-sm" style="width: 100px;" alt="avatar">
+							<h6 id="leftbar_overview_author_name">Zichen</h6>
+							<nav class="site-state">
+								<div class="site-state-item site-state-posts">
+									<a href="/archives">
+										<span class="site-state-item-count">5</span>
+										<span class="site-state-item-name">文章</span>
+									</a>
+								</div>
+								<div class="site-state-item site-state-categories">
+									<a data-toggle="modal" data-target="#blog_categories">
+										<span class="site-state-item-count">2</span>
+										<span class="site-state-item-name">分类</span>
+									</a>
+								</div>      
+								<div class="site-state-item site-state-tags">
+									<a data-toggle="modal" data-target="#blog_tags">
+										<span class="site-state-item-count">3</span>
+										<span class="site-state-item-name">标签</span>
+									</a>
+								</div>
+							</nav>
+							
+									<div class="site-author-links">
+										
+									</div>
+								
+							
+									<div class='site-friend-links'>
+										<div class='site-friend-links-title'><i class='fa fa-fw fa-link'></i> Links</div>
+										<ul class='site-friend-links-ul'>
+											
+												<li class='site-friend-links-item'>
+													<a href='https://github.com/Togetabetterplace' rel='noopener' target='_blank'>github</a>
+												</li>
+											
+												<li class='site-friend-links-item'>
+													<a href='http://www.csu.edu.cn' rel='noopener' target='_blank'>Central_South_University</a>
+												</li>
+											
+										</ul>
+									</div>
+								
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</aside>
+<div class="modal fade" id="blog_categories" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">分类</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<a class="badge badge-secondary tag" href="/categories/CS%E6%8A%80%E6%9C%AF%E7%9B%B8%E5%85%B3/" rel="tag">CS技术相关 <span class="tag-num">3</span></a><a class="badge badge-secondary tag" href="/categories/%E6%9D%82%E9%A1%B9/" rel="tag">杂项 <span class="tag-num">2</span></a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="blog_tags" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">标签</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<a class="badge badge-secondary tag" href="/tags/about/" rel="tag">about <span class="tag-num">1</span></a><a class="badge badge-secondary tag" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔 <span class="tag-num">1</span></a><a class="badge badge-secondary tag" href="/tags/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/" rel="tag">项目记录 <span class="tag-num">3</span></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="primary" class="content-area">
+	<main id="main" class="site-main" role="main">
+		
+		
+			
+	<article class="post post-full card bg-white shadow-sm border-0 ">
+	<header class="post-header text-center">
+		
+		<a class="post-title" href="/2024/06/23/%E6%B1%87%E7%BC%96%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">汇编实验报告</a>
+		<div class="post-meta">
+			
+						
+						<div class="post-meta-detail post-meta-detail-time">
+							<i class="fa fa-clock-o" aria-hidden="true"></i>
+							<time title="发布于 2024-6-23 17:20:35 | 编辑于 2024-6-23 17:42:22">2024-6-23 17:20
+							</time>
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-edittime">
+							<i class="fa fa-clock-o" aria-hidden="true"></i>
+							<time title="发布于 2024-6-23 17:20:35 | 编辑于 2024-6-23 17:42:22">2024-6-23 17:42
+							</time>
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-categories">
+							<i class="fa fa-bookmark-o" aria-hidden="true"></i>
+							<a class="post-meta-detail-catagory-link" href="/categories/CS%E6%8A%80%E6%9C%AF%E7%9B%B8%E5%85%B3/">CS技术相关</a>
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-words">
+							<i class="fa fa-file-word-o" aria-hidden="true"></i>
+							6k 字
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-readingtime">
+							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
+							26 分钟
+						</div>
+					
+		</div>
+		
+	</header>
+
+	<div class="post-content" id="post_content">
+		<h2 id="汇编实验报告"><a href="#汇编实验报告" class="headerlink" title="汇编实验报告"></a>汇编实验报告</h2><h3 id="question1-查找匹配字符串"><a href="#question1-查找匹配字符串" class="headerlink" title="question1: 查找匹配字符串"></a>question1: 查找匹配字符串</h3><h4 id="1-设计说明："><a href="#1-设计说明：" class="headerlink" title="1.设计说明："></a>1.设计说明：</h4><h6 id="下面是比较过程中寄存器的使用："><a href="#下面是比较过程中寄存器的使用：" class="headerlink" title="下面是比较过程中寄存器的使用："></a>下面是比较过程中寄存器的使用：</h6><ul>
+<li>si：存放原串首地址</li>
+<li>di：存放目的串首地址</li>
+<li>cl：关键字长度 (keyword长度)</li>
+<li>ax：目标串(sentence)的偏移量</li>
+</ul>
+<h6 id="子程序说明"><a href="#子程序说明" class="headerlink" title="子程序说明:"></a>子程序说明:</h6><p>part_1：输入Sentence并判断</p>
+<p>part_2：进行字符串比较，内循环</p>
+<p>part_3：改变进行比对的字符串区间，外循环，BX++,清空si，di继续内循环比较</p>
+<p>part_4：match,进行计算位置，进制转换以及输出结果</p>
+<p>part_5：显示not match</p>
+<h6 id="程序流程："><a href="#程序流程：" class="headerlink" title="程序流程："></a>程序流程：</h6><ol>
+<li>输入关键字和一个句子，分别存入相应的缓冲区。</li>
+<li>在句子中查找关键字。</li>
+</ol>
+<p>​		关键字和句子中相应字段的比较可以使用串比较指令，附加段和数据段定义为同一段，以便串指令的使用。<br>下面是比较过程中寄存器的使用：</p>
+<ul>
+<li>每调用一次串比较指令，都有3个分支：<ul>
+<li>匹配成功，转入match</li>
+<li>未匹配但还未越界，则继续比较 ax+1</li>
+<li>已经越界，转入No match</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-调试说明："><a href="#2-调试说明：" class="headerlink" title="2.调试说明："></a>2.调试说明：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb1.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<p>调试中遇到的问题：</p>
+<ol>
+<li><p>由于每次执行内循环都需要将CX的值变成keyword的长度，因此曾考虑在datasg初始化一个空间进行存储。但后来发现每次pop </p>
+<p>cx后，在push cx，cx的值就会再次存入栈中，即可实现cx的动态保存。</p>
+</li>
+<li><p>程序编写完成后开始运行，发现怎么都匹配不到keyword，后来通过debug调试，发现内循环结束的边界次数比keyword长，导致每次匹配都不能正常跳出循环，而出现了每次匹配都匹配不到的问题，经过修改内循环的程序代码，最终成功执行。</p>
+</li>
+</ol>
+<h4 id="3-程序框图："><a href="#3-程序框图：" class="headerlink" title="3.程序框图："></a>3.程序框图：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb2.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<h4 id="4-程序清单："><a href="#4-程序清单：" class="headerlink" title="4.程序清单："></a>4.程序清单：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line">DATAS SEGMENT</span><br><span class="line">    ;此处输入数据段代码</span><br><span class="line">    mess1 DB &#x27;Enter keyword:&#x27;,&#x27;$&#x27;</span><br><span class="line">    mess2 DB &#x27;Enter Sentence:&#x27;,&#x27;$&#x27;</span><br><span class="line">    mess3 DB &#x27;Match at location:&#x27;,&#x27;$&#x27;</span><br><span class="line">    mess4 DB &#x27;NOT MATCH.&#x27;,13,10,&#x27;$&#x27;</span><br><span class="line">    mess5 DB &#x27;H if the sentence&#x27;,13,10,&#x27;$&#x27;</span><br><span class="line">    change DB 13,10,&#x27;$&#x27;</span><br><span class="line">    Key_Word label byte</span><br><span class="line">    max1 db 210                ;关键字最大长度</span><br><span class="line">    act1 db ?                  ;具体关键字keyword长度</span><br><span class="line">    Kword db 10 dup(?)         ;存放关键字字符串</span><br><span class="line">    Sentence label byte</span><br><span class="line">    max2 db 250                ;字符串最大长度</span><br><span class="line">    act2 db ?                  ;具体输入的sentence长度</span><br><span class="line">    Stence db 50 dup(?)        ;存放具体字符串</span><br><span class="line">DATAS ENDS</span><br><span class="line">STACKS SEGMENT</span><br><span class="line">STACKS ENDS</span><br><span class="line">CODES SEGMENT</span><br><span class="line">    ASSUME CS:CODES,DS:DATAS,SS:STACKS</span><br><span class="line">;.................................................................................    </span><br><span class="line">START:                          ;#### 程序开始输入keyword</span><br><span class="line">    MOV AX,DATAS</span><br><span class="line">    MOV DS,AX                           ;程序开始时指向数据段</span><br><span class="line">    </span><br><span class="line">    LEA DX,mess1                        ;将mess放入段寄存器</span><br><span class="line">    MOV ah,09</span><br><span class="line">    INT 21h                             ;输出Enter keyword</span><br><span class="line">    LEA DX,Key_Word</span><br><span class="line">    MOV ah,0ah                          ;用21号中段的0ah号功能获取关键字</span><br><span class="line">    INT 21h</span><br><span class="line">    cmp act1,0                          ;进行比较？</span><br><span class="line">    je exit                             ;如果为空直接退出程序</span><br><span class="line">;..................................................................................</span><br><span class="line">part_1:                         ;#### 输入Sentence并判断</span><br><span class="line">    LEA DX,change</span><br><span class="line">    MOV ah,09</span><br><span class="line">    INT 21h                     ;输出回程，换行</span><br><span class="line">    LEA DX,mess2                ;输出Enter Sentence</span><br><span class="line">    MOV ah,09                   ;中断调用输出字符串</span><br><span class="line">    INT 21h</span><br><span class="line">    LEA DX,Sentence             ;接收字符串</span><br><span class="line">    MOV ah,0ah</span><br><span class="line">    INT 21h</span><br><span class="line">                                ;用21号的0ah号功能获取句子</span><br><span class="line">    MOV AL,act1</span><br><span class="line">    CBW</span><br><span class="line">    MOV CX,AX</span><br><span class="line">                                             ;保存关键字长度到cx</span><br><span class="line">    PUSH CX</span><br><span class="line">                                             ;cx入栈</span><br><span class="line">    MOV AL,act2</span><br><span class="line">    cmp AL,0</span><br><span class="line">    je part_5</span><br><span class="line">                                             ;保存句子长度到al，若句子为空则跳转显示not match</span><br><span class="line">    SUB AL,act1</span><br><span class="line">    js part_5                                ;若句子长度小于关键字长度，则跳转显示not match</span><br><span class="line">    INC AL</span><br><span class="line">    CBW                                      ;扩展数据，8-&gt;16</span><br><span class="line">    LEA BX,Sentence                          ;将句子的首地址放进BX</span><br><span class="line">    MOV DI,0</span><br><span class="line">    MOV SI,0 </span><br><span class="line">;...................................................................................</span><br><span class="line">part_2:                         ;#### 比较，内循环 </span><br><span class="line">    MOV AH,[BX+DI]</span><br><span class="line">    CMP AH,Kword[SI]            ;两字符ASCII码进行比较</span><br><span class="line">    jne part_3                  ;遇见字符不相等就跳转到part_3</span><br><span class="line">    INC DI</span><br><span class="line">    INC SI</span><br><span class="line">    DEC CX                      ;每遇到一个相等的字符,cx=cx-1,</span><br><span class="line">                                ;若cx不为0则比较下一个字符,当cx为0是说明关键字比较完</span><br><span class="line">    CMP CX,0</span><br><span class="line">    je part_4                   ;比较完了</span><br><span class="line">    jmp part_2                  ;未比较完</span><br><span class="line">;....................................................................................</span><br><span class="line">part_3:                         ;#### 外循环，BX+1,清空si，di继续内循环比较</span><br><span class="line">        INC BX                  ;从Sentence下一位开始比较</span><br><span class="line">        DEC AL                  ;句子长度自减，确定跳转No Match的边界</span><br><span class="line">        cmp AL,0</span><br><span class="line">        je part_5               ;相等直接no match</span><br><span class="line">        MOV DI,0                ;两个计数器置零</span><br><span class="line">        MOV SI,0</span><br><span class="line">        POP CX</span><br><span class="line">        push CX                 ;再次存入CX</span><br><span class="line">        jmp part_2</span><br><span class="line">;......................................................................................</span><br><span class="line">part_4:                           ;#### match,将bx减去句子的首地址加一得到关键字所在位置，</span><br><span class="line">        SUB BX,offset Stence                    ;找到位置后调用二进制转十六进制子函数将位置输出</span><br><span class="line">        INC BX</span><br><span class="line">        LEA DX,change                           ;输出换行字符</span><br><span class="line">        MOV ah,09</span><br><span class="line">        INT 21h</span><br><span class="line">        LEA DX,mess3                            ;输出Match at location</span><br><span class="line">        MOV ah,09</span><br><span class="line">        INT 21h</span><br><span class="line">        CALL btoh                               ;二进制转十六进制字符输出</span><br><span class="line">        LEA DX,mess5</span><br><span class="line">        MOV ah,09</span><br><span class="line">        INT 21h</span><br><span class="line">        jmp part_1</span><br><span class="line">        </span><br><span class="line">        ;二进制转换十六进制</span><br><span class="line">        btoh PROC NEAR</span><br><span class="line">        MOV CH,4                 ;十六位寄存器，四个十六进制数，外循环4次</span><br><span class="line">        rotate: MOV CL,4         ;每次输出一位十六进制数内循环4次</span><br><span class="line">        ROL BX,CL</span><br><span class="line">        MOV AL,BL</span><br><span class="line">        and AL,0fh               ;高四位清零</span><br><span class="line">        add AL,30h               ;转ASCII码</span><br><span class="line">        cmp al,3ah               ;跟10的ASCII码对比，大就是字母，小就是数字</span><br><span class="line">        jl printit               ;数字就输出</span><br><span class="line">        add al,7h                ;字母加7后也变ASCII码，输出</span><br><span class="line">        printit:</span><br><span class="line">        MOV dl,al</span><br><span class="line">        MOV ah,2                 ;中断调用输出字符</span><br><span class="line">        int 21h</span><br><span class="line">        dec ch                   ;继续循环输出所有数字</span><br><span class="line">        jnz rotate</span><br><span class="line">        ret</span><br><span class="line">btoh endp</span><br><span class="line">;.........................................................................................</span><br><span class="line">part_5: </span><br><span class="line"></span><br><span class="line">        ;显示not match</span><br><span class="line">        LEA DX,change</span><br><span class="line">        MOV ah,09</span><br><span class="line">        INT 21h</span><br><span class="line">        LEA DX,mess4</span><br><span class="line">        </span><br><span class="line">        MOV ah,09</span><br><span class="line">        INT 21h</span><br><span class="line">        jmp part_1</span><br><span class="line">exit:</span><br><span class="line">        ret</span><br><span class="line">CODES ENDS</span><br><span class="line">    END START</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="question2-查询电话号码"><a href="#question2-查询电话号码" class="headerlink" title="question2: 查询电话号码"></a>question2: 查询电话号码</h3><h4 id="1-设计说明：-1"><a href="#1-设计说明：-1" class="headerlink" title="1.设计说明："></a>1.设计说明：</h4><h6 id="寄存器使用说明："><a href="#寄存器使用说明：" class="headerlink" title="寄存器使用说明："></a>寄存器使用说明：</h6><ul>
+<li>si：临时表项字符地址</li>
+<li>di：电话簿字符地址</li>
+<li>cl：存储name长度</li>
+<li>ax：存放电话簿表项个数</li>
+</ul>
+<h6 id="子程序说明："><a href="#子程序说明：" class="headerlink" title="子程序说明："></a>子程序说明：</h6><p>clear：清空寄存器</p>
+<p>clrf：换行子程序</p>
+<p>printline：换行子程序</p>
+<p>name_search：查询程序</p>
+<p>name_sort：name排序程序</p>
+<p>insert：插入程序</p>
+<p>input_name：输入name</p>
+<p>stor_name：存储name</p>
+<p>inphone：输入并存储phone</p>
+<h6 id="程序流程说明："><a href="#程序流程说明：" class="headerlink" title="程序流程说明："></a>程序流程说明：</h6><ul>
+<li><p>首先进入创建电话簿环节</p>
+<ul>
+<li><p>输入name，判断是否有输入，无输入则跳转查询选择阶段，有输入则存入临时表项，再循环mov到es：di</p>
+</li>
+<li><p>输入phone(电话号码)，存入临时表项，再循环搬运到es：di</p>
+</li>
+<li><p>之后对name进行插入排序，</p>
+<ul>
+<li>如果tel_nam是空的，直接插入</li>
+<li>否则设定si是待插入name地址，di是电话簿地址，将si与di循环比较，si&lt;di时比较结束</li>
+<li>找到插入位置，然后从最后一个表项开始前面的一个表项复制到后面的表项</li>
+<li>到达插入位置后，将临时表项(temp_tab)中的内容复制到对应位置</li>
+<li>完成单次排序</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>当name无输入时，跳转查询选择环节，输入y则进行查询，否则退出</p>
+</li>
+<li><p>选择y进入查询阶段后，输入需要查询的字符串</p>
+<ul>
+<li>将输入的name循环mov到临时表项里，找到电话簿tel_nam地址</li>
+<li>si是临时表项地址，di是电话簿元素地址</li>
+<li>遍历并进行串比较，查找到时，通过cx的循环次数求出目标地址</li>
+<li>比对不一样就di+35(35是tel_nam一个单元的长度)，继续比对</li>
+<li>未找到就输出”no match ! “</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-调试说明：-1"><a href="#2-调试说明：-1" class="headerlink" title="2.调试说明："></a>2.调试说明：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb3.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<h4 id="3-程序框图：-1"><a href="#3-程序框图：-1" class="headerlink" title="3.程序框图："></a>3.程序框图：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb-2.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb-3.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<h4 id="4-程序清单：-1"><a href="#4-程序清单：-1" class="headerlink" title="4.程序清单："></a>4.程序清单：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br></pre></td><td class="code"><pre><span class="line">;PROGRAM TITLE GOES HERE--PHONE</span><br><span class="line">assume cs:prognam,ds:datarea,es:datarea</span><br><span class="line">datarea segment</span><br><span class="line">message1 db &#x27;Input name:&#x27;,&#x27;$&#x27;</span><br><span class="line">message2 db &#x27;Input a telephone number:&#x27;,&#x27;$&#x27;</span><br><span class="line">message3 db &#x27;Do you want a telephone number?(Y/N)&#x27;,&#x27;$&#x27;</span><br><span class="line">message4 db &#x27;name?&#x27;,0ah,0dh,&#x27;$&#x27; </span><br><span class="line">message5 db &#x27;name&#x27;,19 dup(0),&#x27;tel.&#x27;,0ah,0dh,&#x27;$&#x27;</span><br><span class="line">message6 db &#x27;Not find!&#x27;,0ah,0dh,&#x27;$&#x27;</span><br><span class="line">num dw 0                             ;用来标识电话表中数据个数</span><br><span class="line">phonein label byte</span><br><span class="line">    pmax db 11                       ;存储电话的最长位数</span><br><span class="line">    pact db ?                        ;具体的电话号码长度</span><br><span class="line">    phone db 11 dup(?)               ;具体的phone</span><br><span class="line">namein label byte</span><br><span class="line">    nmax db 20                       ;存储name的最大字符数</span><br><span class="line">    nact db ?                        ;存储具体的name长度</span><br><span class="line">    nam db 20 dup(?)                 ;具体的name</span><br><span class="line"></span><br><span class="line">temp_nam db 20 dup(?)                ;临时存放表项</span><br><span class="line">temp_tab db 20 dup(?),4 dup(?),8 dup(?),13,10,&#x27;$&#x27;</span><br><span class="line">                            ;排序用，临时储存tel_tab中一项</span><br><span class="line">tel_tab db 50 dup(20 dup(?),4 dup(?),8 dup(?),13,10,&#x27;$&#x27;)</span><br><span class="line">                            ;每一项35（20+8+4+3）字节</span><br><span class="line">datarea ends</span><br><span class="line">;........................................................................................</span><br><span class="line">prognam segment              ;代码段code segment</span><br><span class="line">start:</span><br><span class="line">main proc far                ;主函数</span><br><span class="line">    push ds</span><br><span class="line">    xor ax,ax                ;置零</span><br><span class="line">    push ax</span><br><span class="line">    mov ax,datarea           ;指向数据段</span><br><span class="line">    mov ds,ax</span><br><span class="line">    mov es,ax</span><br><span class="line">;.........................................................................................</span><br><span class="line">begin:                                            ;#### 数据输入阶段</span><br><span class="line">    lea dx,message1                ;输出提示输入名字</span><br><span class="line">    mov ah,09h                     ;中断调用输入字符串</span><br><span class="line">    int 21h</span><br><span class="line">    call clear                     ;清空临时单元temp_nam和tel_tab中的内容；</span><br><span class="line">    call input_name                ;调用input_name</span><br><span class="line">    cmp nact,0</span><br><span class="line">    je search            ;如果没有输入名字，表明输入结束，开始查询</span><br><span class="line">    call stor_name       ;调用存储name程序</span><br><span class="line">    lea dx,message2      ;输出提示输入电话号码</span><br><span class="line">    mov ah,09h</span><br><span class="line">    int 21h</span><br><span class="line">    call inphone         ;输入电话号码后，调用inphone</span><br><span class="line">    call name_sort       ;进行姓名排序</span><br><span class="line">    jmp begin            ;循环输入</span><br><span class="line">;........................................................................................</span><br><span class="line">search:                                           ;#### 查询电话号码阶段</span><br><span class="line">    mov ah,09</span><br><span class="line">    lea dx,message3          ;提示是否进行查询</span><br><span class="line">    int 21h</span><br><span class="line">    mov ah,01h               ;键盘输入并回显</span><br><span class="line">    int 21h</span><br><span class="line">    cmp al,&#x27;N&#x27;               ;不查询直接退出</span><br><span class="line">    je exit</span><br><span class="line"></span><br><span class="line">    call crlf                           ;换行</span><br><span class="line">    mov ah,09</span><br><span class="line">    lea dx,message4                     ;提示输入名字进行查询</span><br><span class="line">    int 21h</span><br><span class="line">    call input_name                     ;输入name</span><br><span class="line">    cmp nact,0                          ;进行输入判断</span><br><span class="line">    je exit                             ;没输入就直接结束了</span><br><span class="line">    call name_search                    ;nema查询函数</span><br><span class="line">    call printline                      ;输出查询结果，没查到就返回。</span><br><span class="line">    jmp search                          ;再次跳回查询程序</span><br><span class="line">exit:</span><br><span class="line">    ret</span><br><span class="line">main endp                      ;主程序结束</span><br><span class="line">;..........................................................................................</span><br><span class="line">                                                   ;#### 输入姓名</span><br><span class="line">input_name proc near           ;接收从键盘的输入名字，存储到存储单元namein</span><br><span class="line">    lea dx,namein              ;输进namein</span><br><span class="line">    mov ah,0ah                 ;终端调用输入</span><br><span class="line">    int 21h </span><br><span class="line">    call crlf                  ;调用crlf换行</span><br><span class="line">    ret</span><br><span class="line">input_name endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">                                                   ;#### 存放姓名</span><br><span class="line">stor_name proc near                         ;从存储单元name的姓名存储到临时表项temp_tab</span><br><span class="line">    cmp nact,0                              ;判定输入的字符长度，没输入就返回</span><br><span class="line">    je exit1</span><br><span class="line">    lea si,nam                              ;将si指向nam(具体的name字符串)</span><br><span class="line">    lea di,temp_tab                         ;di指向临时存放单元</span><br><span class="line">    xor ch,ch                       ;ch清零</span><br><span class="line">    mov cl,nact                     ;nact是长度</span><br><span class="line">    cld                             ;df清零，si增加</span><br><span class="line">    rep movsb                       ;循环搬运到es：di</span><br><span class="line">exit1:</span><br><span class="line">    ret</span><br><span class="line">stor_name endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">                                                    ;#### 存放号码 </span><br><span class="line">inphone proc near              ;接收输入的号码，存到phonein和temp_tab;存储N,X,Y,Z</span><br><span class="line">    lea dx,phonein             ;输入</span><br><span class="line">    mov ah,0ah</span><br><span class="line">    int 21h</span><br><span class="line">    cmp pact,0                         ;判断是否输入号码</span><br><span class="line">    je exit2        </span><br><span class="line">    call crlf                          ;换行</span><br><span class="line">    lea si,phone                       ;phone地址</span><br><span class="line">    lea di,temp_tab                    ;temp_tab地址</span><br><span class="line">    add di,23                  </span><br><span class="line">    sub ch,ch                   ;ch清零</span><br><span class="line">    mov cl,pact                 ;将接收的字符数量放进cl</span><br><span class="line">    cld                         ;设置方向</span><br><span class="line">    rep movsb                   ;依次搬运temp----&gt;phone存储</span><br><span class="line">exit2:</span><br><span class="line">    ret</span><br><span class="line">inphone endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">;1.根据名字进行排序，首先找到插入位置，然后从最后一个表项开始前面的一个表项复制到后面的表项--   --#### 姓名排序(插入排序)</span><br><span class="line">;2.到达插入位置后，将临时表项(temp_tab)中的内容复制到对应位置</span><br><span class="line">name_sort proc near            ;恢复N,X,Y,Z</span><br><span class="line">    cmp num,0</span><br><span class="line">    jnz sort                   ;表项中有内容，进入排序子程序</span><br><span class="line">    lea si,temp_tab            ;如果表项中没有内容，直接插入</span><br><span class="line">    lea di,tel_tab             ;di为电话簿地址</span><br><span class="line">    mov cx,35                  ;要传送的数据段长度</span><br><span class="line">    cld                        ;cld&lt;-------&gt;std，操作方向标志位DF, cld使DF复位，即是让DF=0，std使DF置位，即DF=1</span><br><span class="line">    rep movsb                  ;循环传送</span><br><span class="line">    jmp exit3</span><br><span class="line">sort:</span><br><span class="line">    mov cx,num                                            ;cx=数据元素长度</span><br><span class="line">    lea si,temp_tab                                       ;si=tem_tab地址</span><br><span class="line">    lea di,tel_tab                                        ;di=tel_tab地址</span><br><span class="line">loopsort:</span><br><span class="line">    push di                    ;因为接下来比较di会变，将di入栈</span><br><span class="line">    push cx                    ;ci同理</span><br><span class="line">    mov cx,20                  ;temp一共20字节，所以只要比较20次</span><br><span class="line">    repz cmpsb                 ;repz cmpsb 如果ds:si和es:di所指向的两个字节相等，则继续比较</span><br><span class="line">    ja move                    ;如果si&gt;di,则di跳转move，指向下一个表项，继续循环</span><br><span class="line">    pop cx</span><br><span class="line">    pop di</span><br><span class="line">    call insert                ;否则找到插入位置，调用插入子程序</span><br><span class="line">    jmp exit3</span><br><span class="line">move:</span><br><span class="line">    pop cx                                  ;继续循环，将cx和di pop出来</span><br><span class="line">    pop di</span><br><span class="line">    add di,35                               ;往下找一个</span><br><span class="line">    lea si,temp_tab</span><br><span class="line">    loop loopsort                           ;循环loopsort</span><br><span class="line">    mov cx,35                               ;正常退出循环，说明需要插入在最后</span><br><span class="line">    rep movsb</span><br><span class="line">exit3:</span><br><span class="line">    inc num                                 ;表项个数加1</span><br><span class="line">    ret</span><br><span class="line">name_sort endp                              ;此处，没有正确返回，因为push进去没有pop出来</span><br><span class="line">;..........................................................................................</span><br><span class="line"></span><br><span class="line">;进入此子程序后，cx存储着需要移动的表项个数，从后往前进行复制（移动）</span><br><span class="line">insert proc near</span><br><span class="line">    mov ax,num                     ;num-cx+1是位置，cx是需要移动的表项个数</span><br><span class="line">loopinsert:</span><br><span class="line">    push ax</span><br><span class="line">    mov bx,35</span><br><span class="line">    mul bx                                      ;字节总数35*num</span><br><span class="line">    lea di,tel_tab                              ;取地址</span><br><span class="line">    add di,ax</span><br><span class="line">    mov si,di                                   ;di目前指向num*35</span><br><span class="line">    sub si,35                                   ;si目前指向num*(35-1)</span><br><span class="line">    push cx</span><br><span class="line">    mov cx,35</span><br><span class="line">    rep movsb</span><br><span class="line">    pop cx                     ;cx复原值</span><br><span class="line">    pop ax                     ;ax赋值为查找计数器</span><br><span class="line">    dec ax                     ;ax往后一格，继续循环找插入处</span><br><span class="line">    loop loopinsert</span><br><span class="line"></span><br><span class="line">    lea si,temp_tab                ;插入待插入位置</span><br><span class="line">    lea di,tel_tab</span><br><span class="line">    mov bx,35</span><br><span class="line">    mul bx                         ;得到插入的偏移地址</span><br><span class="line">    add di,ax                      ;数据依次传送</span><br><span class="line">    mov cx,35                      ;传送35次</span><br><span class="line">    rep movsb</span><br><span class="line">    ret</span><br><span class="line">insert endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">name_search proc near</span><br><span class="line">    call clear                                  ;清空临时单元temp_nam和tel_tab中的内容；</span><br><span class="line">    mov ch,0</span><br><span class="line">    mov cl,nact                                 ;cl是名字长度</span><br><span class="line">    lea si,nam                                  ;si是具体name</span><br><span class="line">    lea di,temp_nam                             ;name--&gt;temp_nam</span><br><span class="line">    rep movsb                                   ;循环mov</span><br><span class="line">    mov cx,num                                  ;搜寻名字循环次数</span><br><span class="line">    lea di,tel_tab                       ;tel_tab地址</span><br><span class="line">    lea si,temp_nam                      ;temp_nam地址</span><br><span class="line">loopfind:</span><br><span class="line">    push di</span><br><span class="line">    push cx</span><br><span class="line">    mov ch,0</span><br><span class="line">    mov cl,20                </span><br><span class="line">    repz cmpsb               ;为0时重复串操作</span><br><span class="line">    je found                 ;找到，则num-cx为位置</span><br><span class="line">    pop cx</span><br><span class="line">    pop di</span><br><span class="line">    add di,35                ;没找到就di+35，找下一个</span><br><span class="line">    lea si,temp_nam</span><br><span class="line">    loop loopfind</span><br><span class="line">    mov cx,0                 ;没找到</span><br><span class="line">    jmp exit4</span><br><span class="line">found:</span><br><span class="line">    pop cx</span><br><span class="line">    pop di</span><br><span class="line">exit4:</span><br><span class="line">    ret</span><br><span class="line">name_search endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">printline proc near                  ;#### 输出查询结果</span><br><span class="line">    cmp cx,0</span><br><span class="line">    jnz next                         ;不等于就跳到next输出查询结果</span><br><span class="line">    mov ah,09h        </span><br><span class="line">    lea dx,message6                  ;未找到</span><br><span class="line">    int 21h                          ;输出no match!</span><br><span class="line">    jmp exit5</span><br><span class="line">next:</span><br><span class="line">    lea dx,message5          ;输出查询结果</span><br><span class="line">    mov ah,09h</span><br><span class="line">    int 21h</span><br><span class="line">    mov ax,num               ;num,数据元素个数</span><br><span class="line">    sub ax,cx                ;num - cx</span><br><span class="line">    mov bx,35                ;乘数35，是每个数据的长度</span><br><span class="line">    mul bx                   ;(num - cx) * 35：地址</span><br><span class="line">    lea dx,tel_tab           ;计算出位置后输出</span><br><span class="line">    add dx,ax</span><br><span class="line">    mov ah,09h</span><br><span class="line">    int 21h</span><br><span class="line">exit5:</span><br><span class="line">    ret</span><br><span class="line">printline endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">crlf proc near               ;#### 换行子程序</span><br><span class="line">    mov dl,0ah               ;空格ASCII码</span><br><span class="line">    mov ah,02h</span><br><span class="line">    int 21h</span><br><span class="line">    mov dl,0dh               ;打出一个换行符</span><br><span class="line">    mov ah,02h</span><br><span class="line">    int 21h</span><br><span class="line">    ret</span><br><span class="line">crlf endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">clear proc near              ;#### 清空寄存器</span><br><span class="line">    lea di,temp_tab</span><br><span class="line">    xor al,al                ;置零，异或之后全为0</span><br><span class="line">    mov cx,32</span><br><span class="line">    rep stosb</span><br><span class="line">    lea di,temp_nam</span><br><span class="line">    xor al,al</span><br><span class="line">    mov cx,20</span><br><span class="line">    rep stosb</span><br><span class="line">    ret</span><br><span class="line">clear endp</span><br><span class="line">;..........................................................................................</span><br><span class="line">prognam ends</span><br><span class="line">    end start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="question3-统计字符串中不同字符个数"><a href="#question3-统计字符串中不同字符个数" class="headerlink" title="question3: 统计字符串中不同字符个数"></a>question3: 统计字符串中不同字符个数</h3><h4 id="1-设计说明：-2"><a href="#1-设计说明：-2" class="headerlink" title="1.设计说明："></a>1.设计说明：</h4><h6 id="寄存器使用说明：-1"><a href="#寄存器使用说明：-1" class="headerlink" title="寄存器使用说明："></a>寄存器使用说明：</h6><ul>
+<li>cl：存储line长度</li>
+<li>al：line[si]</li>
+</ul>
+<h6 id="子程序说明：-1"><a href="#子程序说明：-1" class="headerlink" title="子程序说明："></a>子程序说明：</h6><p>decimal：控制输出数字，进行进制转换</p>
+<p>break：输出部分</p>
+<p>exit：退出程序</p>
+<h6 id="程序流程说明：-1"><a href="#程序流程说明：-1" class="headerlink" title="程序流程说明："></a>程序流程说明：</h6><ul>
+<li>输入字符串到line</li>
+<li>如果字符串长度为零就退出，否则进行统计</li>
+<li>将line进行遍历统计<ul>
+<li>先判定是否小于0，小于0则是其他字符</li>
+<li>再判定是否大于9，大于9则进入letter_or_other,小于9就数字++</li>
+<li>进入letter_or_other就将字母转为大写，判定字符是否大于’A’，小于’Z’，是则letter++，否则other++</li>
+</ul>
+</li>
+<li>输出答案，跳转输入line</li>
+</ul>
+<h4 id="2-调试说明：-2"><a href="#2-调试说明：-2" class="headerlink" title="2.调试说明："></a>2.调试说明：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb4.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<p>​		编程中判定是数字还是其他字符时，没有考虑到ascii码可能小于’0’，因此开始调试时所得出的结果与字符实际数量不一致，后来修改了判定程序，加入判定字符是否小于’0’，得到了正确的结果。</p>
+<h4 id="3-程序框图：-2"><a href="#3-程序框图：-2" class="headerlink" title="3.程序框图："></a>3.程序框图：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb5.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<h4 id="4-程序清单：-2"><a href="#4-程序清单：-2" class="headerlink" title="4.程序清单："></a>4.程序清单：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">datas segment</span><br><span class="line"> </span><br><span class="line">     line_max_length    db 0ffh</span><br><span class="line">     line               db  0, 100h  dup(?);后面那个100h存放具体的字符串</span><br><span class="line"> </span><br><span class="line">	 letter_count       dw  0; letter 的数量</span><br><span class="line">	 digit_count        dw  0; 数字数量</span><br><span class="line">	 other_count        dw  0; 其它字符数量</span><br><span class="line">	 </span><br><span class="line">	 input                     db &#x27;input a line:$&#x27;</span><br><span class="line">	 output_letter_count       db 0dh,0ah,&#x27;letter count:$&#x27;</span><br><span class="line">	 output_digit_count        db 0dh,0ah,&#x27;digit count:$&#x27;</span><br><span class="line">	 output_other_count        db 0dh,0ah,&#x27;other count:$&#x27;</span><br><span class="line">datas ends</span><br><span class="line">stacks segment stack</span><br><span class="line">    db  100h dup(?)            ;定义栈</span><br><span class="line">stacks ends</span><br><span class="line">codes segment</span><br><span class="line">assume cs:codes,ds:datas,ss:stacks</span><br><span class="line">main   proc  far</span><br><span class="line">;.....................................................................................</span><br><span class="line">start: </span><br><span class="line">       push ds                      	;输入及统计准备</span><br><span class="line">	   mov ax,0h                    	;将ax置零</span><br><span class="line">	   push ax</span><br><span class="line">       mov ax,datas                 	;初始化ds</span><br><span class="line">	   mov ds,ax</span><br><span class="line">       </span><br><span class="line">       lea dx,input             	    ;输入一行字符提示</span><br><span class="line">	   mov ah,09h</span><br><span class="line">	   int 21h</span><br><span class="line">	                            </span><br><span class="line">	   lea dx,line_max_length	        ;输入一行字符</span><br><span class="line">	   mov ah,10             	        ;键盘缓冲输入</span><br><span class="line">	   int 21h </span><br><span class="line">	   </span><br><span class="line">;****对输入的一行字符进行统计</span><br><span class="line">	   mov cl,line       						;其中line存的是字符串长度</span><br><span class="line">	   xor ch,ch         						;置零</span><br><span class="line">	   mov si,1</span><br><span class="line">	   cmp cx,0          						;判断字符串的长度是否为0</span><br><span class="line">	   jz exit          						;若为0，跳转</span><br><span class="line">;.......................................................................................</span><br><span class="line">	 s:                       ;#### 循环部分</span><br><span class="line">       mov al,line[si]</span><br><span class="line">	   cmp al,&#x27;0&#x27;             ;判断字符是否小于&#x27;0&#x27;</span><br><span class="line">	   jb other               ;若小于&#x27;0&#x27;，则字符为其他字符</span><br><span class="line">	   cmp al,&#x27;9&#x27;             ;判断字符是否大于&#x27;9&#x27;</span><br><span class="line">	   ja letter_or_other     ;若大于&#x27;9&#x27;,则字符为字母或其他字符</span><br><span class="line">	   inc digit_count        ;否则，字符为数字字符，数字记录器加1</span><br><span class="line">	   jmp next               ;跳转</span><br><span class="line">	 letter_or_other:</span><br><span class="line">	    and al,11011111b          ;将字符转为大写字符</span><br><span class="line">		cmp al,&#x27;A&#x27;                ;判断字符是否大于&#x27;A&#x27;</span><br><span class="line">		jb other                  ;若小于，则字符是其他字符，跳转</span><br><span class="line">		cmp al,&#x27;Z&#x27;                ;判断字符是否大于&#x27;Z&#x27;</span><br><span class="line">		ja other                  ;若大于，则字符为其他字符，跳转</span><br><span class="line">		inc letter_count          ;否则，字符为字母字符，字母记录器加1</span><br><span class="line">		jmp next</span><br><span class="line">	 other:</span><br><span class="line">	   inc other_count         ;字符为其他字符，其他记录器加1 </span><br><span class="line">	 next:</span><br><span class="line">	   inc si</span><br><span class="line">	   loop s</span><br><span class="line">;........................................................................................     </span><br><span class="line">    break:	 					;#### 输出部分</span><br><span class="line">        ;输出记录器的值</span><br><span class="line">		lea dx,output_letter_count           ;输出字符串，letter_count</span><br><span class="line">		mov ah,09h</span><br><span class="line">		int 21h	</span><br><span class="line">		mov ax,letter_count                  ;输出具体letter数量</span><br><span class="line">		call decimal</span><br><span class="line">		</span><br><span class="line">		lea dx,output_digit_count            ;输出字符串，digit_count</span><br><span class="line">		mov ah,09h</span><br><span class="line">		int 21h</span><br><span class="line">		mov ax,digit_count                   ;输出具体digit数量</span><br><span class="line">		call decimal</span><br><span class="line">		</span><br><span class="line">		lea dx,output_other_count            ;输出其他字符，other_count</span><br><span class="line">		mov ah,09h</span><br><span class="line">		int 21h</span><br><span class="line">		mov ax,other_count                   ;输出具体other数量</span><br><span class="line">		call decimal</span><br><span class="line">		call crlf</span><br><span class="line">		jmp main</span><br><span class="line">       ret</span><br><span class="line">main endp</span><br><span class="line">;........................................................................................</span><br><span class="line">exit:   mov ax,4c00h            ;退出程序</span><br><span class="line">	    int 21h</span><br><span class="line"></span><br><span class="line">;.........................................................................................</span><br><span class="line">crlf proc near               	;#### 换行子程序</span><br><span class="line">    mov dl,0ah               	;空格ASCII码</span><br><span class="line">    mov ah,02h</span><br><span class="line">    int 21h</span><br><span class="line">    mov dl,0dh               	;打出一个换行符</span><br><span class="line">    mov ah,02h</span><br><span class="line">    int 21h</span><br><span class="line">    ret</span><br><span class="line">crlf endp</span><br><span class="line">;........................................................................................</span><br><span class="line">decimal proc near               ;#### 控制输出数字的子程序</span><br><span class="line"> </span><br><span class="line">        push ax                 ;入栈</span><br><span class="line">		push cx </span><br><span class="line">		push dx</span><br><span class="line">		push bx </span><br><span class="line">		</span><br><span class="line">		;cmp ax,0                ;ax存具体数值</span><br><span class="line">		;jge not_negative         ;没有符号就跳转</span><br><span class="line">		;mov bx,ax               </span><br><span class="line">		;mov dl,&#x27;-&#x27;              ;有负数就加&#x27;-&#x27;</span><br><span class="line">		;mov ah,02h              ;输出&#x27;-&#x27;号</span><br><span class="line">		;int 21h </span><br><span class="line">		;neg bx                  ;对具体数据求补</span><br><span class="line">		;mov ax,bx </span><br><span class="line">		</span><br><span class="line">	not_negative:</span><br><span class="line">	   mov cx,0</span><br><span class="line">	   mov bx,10 </span><br><span class="line">	  de:</span><br><span class="line">	   xor dx,dx                 ;置零 </span><br><span class="line">	   div bx                    ;每次除10，16-&gt;10进制数</span><br><span class="line">	   push dx 					 ;除后余数在dx里，入栈</span><br><span class="line">	   inc cx                    ;计数器++,为接下来输出做准备</span><br><span class="line">	   cmp ax,0                  ;ax！= 0,继续除</span><br><span class="line">	   jnz de   </span><br><span class="line">	  de1:</span><br><span class="line">	   pop dx                     ;弹出dx中的余数(即十进制数每个数位上的数字)</span><br><span class="line">	   add dl,30h                 ;转ASCII码</span><br><span class="line">	   mov ah,02h                 ;调用字符功能输出</span><br><span class="line">	   int 21h</span><br><span class="line">	   loop de1 </span><br><span class="line">	   </span><br><span class="line">	  pop bx                      ;出栈</span><br><span class="line">	  pop dx </span><br><span class="line">	  pop cx </span><br><span class="line">	  pop ax </span><br><span class="line">	  </span><br><span class="line">	  ret </span><br><span class="line">	  </span><br><span class="line">decimal endp</span><br><span class="line">codes ends</span><br><span class="line"> </span><br><span class="line">end main</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="question4-求出第n项斐波那契数"><a href="#question4-求出第n项斐波那契数" class="headerlink" title="question4: 求出第n项斐波那契数"></a>question4: 求出第n项斐波那契数</h3><h4 id="1-设计说明：-3"><a href="#1-设计说明：-3" class="headerlink" title="1.设计说明："></a>1.设计说明：</h4><h6 id="寄存器使用说明：-2"><a href="#寄存器使用说明：-2" class="headerlink" title="寄存器使用说明："></a>寄存器使用说明：</h6><p>cx：存储项数N</p>
+<p>dx：具体要输出的数字</p>
+<h6 id="子程序说明：-2"><a href="#子程序说明：-2" class="headerlink" title="子程序说明："></a>子程序说明：</h6><p>INPUT：输入要计算斐波那契数列的项数</p>
+<p>IN_END：结束调用</p>
+<p>OUTPUT：将栈中的数字转化为十进制输出</p>
+<h6 id="程序流程说明：-2"><a href="#程序流程说明：-2" class="headerlink" title="程序流程说明："></a>程序流程说明：</h6><ul>
+<li><p>输入项数，存至CX</p>
+</li>
+<li><p>判定CX，小于1进行结束判定，大于1存入N</p>
+</li>
+<li><p>将1放到输出区，输出后N–</p>
+</li>
+<li><p>进入标号S，计算F1+F2，将F2，F1+F2做为新的F1，F2。N&#x3D;N-1；</p>
+</li>
+<li><p>判定N是否等于0：</p>
+<ul>
+<li>不等继续循环</li>
+<li>等于则输出</li>
+</ul>
+</li>
+<li><p>输出后判定是否结束程序：</p>
+<ul>
+<li>Y程序结束</li>
+<li>N则继续输入N</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-调试说明：-3"><a href="#2-调试说明：-3" class="headerlink" title="2.调试说明："></a>2.调试说明：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb6.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<p>编程时碰到的困难主要是两个问题：</p>
+<ol>
+<li>F1和F2进行迭代时，之前F2要变成F1，开始直接用mov，产生报错，后来通过先将F2 mov至BX寄存器，再将寄存器mov到F1的方法实现了F2替换原来的F1的过程。</li>
+<li>计算出斐波那契数后，如何转化为十进制输出。由于斐波那契数的数值较大，不能通过简单的+30h来转变为ASCII码值，通过C语言编程的启发，我们可以每次对数值除10，得到的余数即此数位上的数字，此时讲数字+30h后输出即可。为了方便控制，可以先将每位上可以输出的数值push入栈中保存，等AX&#x3D;&#x3D;0时再依次pop输出。</li>
+</ol>
+<h4 id="3-程序框图：-3"><a href="#3-程序框图：-3" class="headerlink" title="3.程序框图："></a>3.程序框图：</h4><p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/image/imagehb7.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="alt text"></p>
+
+<h4 id="4-程序清单：-3"><a href="#4-程序清单：-3" class="headerlink" title="4.程序清单："></a>4.程序清单：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">ASSUME CS:CODE,DS:DATA,SS:STACK</span><br><span class="line">DATA SEGMENT</span><br><span class="line">	MSG1 DB 13,10,&#x27;Please input the num of Fibonacci(N&lt;256), N =  $&#x27;</span><br><span class="line">	MSG2 DB 13,10,&#x27;Fibonacci Sequence is: $&#x27;    ;提示信息</span><br><span class="line">	MSG3 DB 13,10,&#x27;exit?(Y/N)&#x27;,&#x27;$&#x27;</span><br><span class="line"> 	N DW 0  </span><br><span class="line"> 	F1  DW 0  </span><br><span class="line"> 	F2  DW 1            ;计算数列的两个加数F[0],F[1]</span><br><span class="line">DATA ENDS</span><br><span class="line">STACK SEGMENT</span><br><span class="line">	dw  100h dup(?)</span><br><span class="line">STACK ENDS</span><br><span class="line">;..............................................................................</span><br><span class="line">CODE SEGMENT</span><br><span class="line">START:</span><br><span class="line"> 	MOV AX,DATA</span><br><span class="line"> 	MOV DS,AX           ;导入数据</span><br><span class="line"> 	LEA DX,MSG1         ;输出输入提示</span><br><span class="line"> 	MOV AH,9</span><br><span class="line"> 	INT 21H             ;打印提示信息1</span><br><span class="line"> 	CALL INPUT          ;调用INPUT模块， 得到项数 存到 CX中</span><br><span class="line"> 	CMP CX,1            ;如果CX &lt; 1 输入不合法</span><br><span class="line"> 	JB EXIT             ;不合法就直接退出   </span><br><span class="line"> 	MOV N,CX            ;令N = CX  即 N为数列项数</span><br><span class="line"></span><br><span class="line"> 	LEA DX,MSG2         ;打印输出信息 ‘Fibonacci Sequence is:’</span><br><span class="line"> 	MOV AH,9            ;调用的是9号方法 .09H号调用，字符串输出显示</span><br><span class="line"> 	INT 21H</span><br><span class="line">;...............................................................................</span><br><span class="line">first:	                      ; #### 处理首项</span><br><span class="line">	MOV DL,&#x27;1&#x27;                ; 先把 1 放到输出区</span><br><span class="line"> 	MOV AH,2                  ; 输出 1</span><br><span class="line"> 	INT 21H</span><br><span class="line"> 	MOV DL,&#x27; &#x27;</span><br><span class="line"> 	INT 21H                   ; 输出 空格</span><br><span class="line"> 	DEC N                     ; N = N - 1; </span><br><span class="line"> 	JZ exit                   ; 当 N = 0时，退出</span><br><span class="line">;................................................................................</span><br><span class="line">S:              ;#### 循环部分</span><br><span class="line"> 	MOV AX,F1   ;把 AX = F1</span><br><span class="line"> 	ADD AX,F2   ;AX =+ F2</span><br><span class="line"> 	JC EXIT     ;AX发生进位 即 AX不能表示数字</span><br><span class="line"> 	MOV BX,F2  </span><br><span class="line"> 	MOV F1,BX   ;不能 直接MOV F1,F2 </span><br><span class="line"> 	MOV F2,AX   ;把 F2 赋值给 F1 , AX （计算出来的一项） 赋值给 F2 </span><br><span class="line"> 	CALL OUTPUT ;调用输出模块 输出计算的项</span><br><span class="line"> 	MOV DL,&#x27; &#x27;  </span><br><span class="line"> 	MOV AH,2</span><br><span class="line"> 	INT 21H     ;输出空格</span><br><span class="line"> 	DEC N       ; N = N - 1</span><br><span class="line"> 	JNZ S       ;跳转到循环LOOP JNZ是由标志位ZF  而ZF是算术运算可以改变的，</span><br><span class="line">                ;这里可能使ZF发生改变的是上一个指令    DEC N  ， 当N ！= 0 条件成立</span><br><span class="line">EXIT:</span><br><span class="line">	 			;退出程序</span><br><span class="line">	lea dx,MSG3 ;退出提示</span><br><span class="line">	mov ah,09h</span><br><span class="line">	int 21h</span><br><span class="line">	mov ah,07h</span><br><span class="line">	int 21h</span><br><span class="line"></span><br><span class="line">	call crlf         ;换行</span><br><span class="line">	mov ah,0</span><br><span class="line">	cmp ax,&#x27;N&#x27;</span><br><span class="line">	jz exit_real</span><br><span class="line">	jmp start</span><br><span class="line">	</span><br><span class="line">exit_real:</span><br><span class="line">	MOV AH,4CH</span><br><span class="line"> 	INT 21H  </span><br><span class="line">;..........................................................................................</span><br><span class="line">crlf proc near               ;#### 换行子程序</span><br><span class="line">    mov dl,0ah               ;空格ASCII码</span><br><span class="line">    mov ah,02h</span><br><span class="line">    int 21h</span><br><span class="line">    mov dl,0dh               ;打出一个换行符</span><br><span class="line">    mov ah,02h</span><br><span class="line">    int 21h</span><br><span class="line">    ret</span><br><span class="line">crlf endp  </span><br><span class="line">	</span><br><span class="line">;.................................................................................</span><br><span class="line">INPUT:                     ;#### 输入项数N</span><br><span class="line"> 	MOV BL,10                 ;  BL 为 10</span><br><span class="line"> 	MOV CX,0                  ;  CX 为 0</span><br><span class="line"></span><br><span class="line">IN_X:                      ;#### 输入数字  </span><br><span class="line"> 	MOV AH,07h</span><br><span class="line"> 	INT 21H                   ; 读取数据 </span><br><span class="line"> 	CMP AL,13                 ; 读取的字符是 回车 </span><br><span class="line"> 	JE IN_END                 ; 跳转到输入结束模块  </span><br><span class="line"> 	CMP AL,&#x27;0&#x27;                ; 输入不合法 就继续输入</span><br><span class="line"> 	JB IN_X</span><br><span class="line"> 	CMP AL,&#x27;9&#x27;  ; 输入不合法 就继续输入</span><br><span class="line"> 	JA IN_X  </span><br><span class="line"> 	MOV DL,AL   ; 把合法数字 存入到DL  </span><br><span class="line"> 	MOV AH,2    ; 调用2号功能 输出刚才输入的字符</span><br><span class="line"> 	INT 21H</span><br><span class="line"> 	MOV AL,DL   </span><br><span class="line"> 	SUB AL,30H  ; 把assic码变成数字</span><br><span class="line"> 	MOV AH,0    ; AH 为 0                       </span><br><span class="line"> 	XCHG AX,CX               ; 把cx变成刚输入的数字</span><br><span class="line"> 	MUL BL                   ; AX = AL * BL(10) 就是乘相应的权 百位乘100  十位乘10 </span><br><span class="line"> 	ADD CX,AX                ; CX += AX; cx表示的就是真正输入的斐波那契项数</span><br><span class="line"> 	</span><br><span class="line"> 	;这里设置项数的最大值 项数最大为256 如果输入大于256 就直接结束</span><br><span class="line"> 	CMP CH,0                 ;判断CX的前8位是不是为0， 如果不为0， 说明大于256 </span><br><span class="line"> 	JNZ IN_END               ;大于256 直接结束输入</span><br><span class="line"> 	JMP IN_X                 ;否则继续输入</span><br><span class="line">;..................................................................................</span><br><span class="line">IN_END:</span><br><span class="line"> 	RET   ;结束调用</span><br><span class="line">OUTPUT:</span><br><span class="line"> 	MOV BX,10   ;BX 初始化为 10</span><br><span class="line">	 MOV CX,0   ;CX 初始为 0</span><br><span class="line">;会接着运行下面的代码 </span><br><span class="line">;下面的代码用于把数字转换成字符串</span><br><span class="line">;方法是每次把数除10 得到余数 压入栈中在，直到被除数为0， 然后依次输出栈顶字符       </span><br><span class="line"></span><br><span class="line">LOOP1:</span><br><span class="line">	MOV DX,0  ;  DX = 0</span><br><span class="line"> 	DIV BX       ; AX为被除数 AX =  AX / 10;  余数放在DX里 ，这就是最低位的数字</span><br><span class="line"> 	ADD DL,&#x27;0&#x27;   ; 把DL 加上 &#x27;0&#x27;  此时 DL是能直接输出的字符数字</span><br><span class="line"> 	PUSH DX      ; 把DX 压入栈</span><br><span class="line"> 	INC CX       ; CX ++</span><br><span class="line"> 	CMP AX,0     </span><br><span class="line"> 	JNZ LOOP1      ; 如果AX 不为 0, 就继续LOOP1</span><br><span class="line"> 	MOV AH,2</span><br><span class="line">LOOP2:POP DX       ;循环输出栈的字符</span><br><span class="line"> 	INT 21H</span><br><span class="line"> 	LOOP LOOP2</span><br><span class="line"> 	RET            ;结束调用</span><br><span class="line">;</span><br><span class="line">CODE ENDS</span><br><span class="line"> 	END START</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结与思考"><a href="#总结与思考" class="headerlink" title="总结与思考"></a>总结与思考</h3><p>​		由于自己回家后有一段时间没有复习汇编语言，开始时对于本次实验的问题是一头雾水，之后便开始进行复习和实践，最终完善了我的汇编笔记，同时写了许多实践方面的经验。从编写一些简单的输入输出程序开始，我慢慢将之前课程上学到的内容运用到实际编程上，各种指令，以及设计程序的方法，慢慢由陌生到熟练。老师检查完成后，我也发现了我的程序只能执行一次的问题，因此接下来我又加入了一些循环执行程序和程序按输入退出的程序。</p>
+<p>​		总的来说，后面我还会尝试更多更复杂的问题，本次实验我收获良多！</p>
+
+	</div>
+
+	
+
+	
+
+	
+		<div class="post-tags">
+			<i class="fa fa-tags" aria-hidden="true"></i>
+			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E9%A1%B9%E7%9B%AE%E8%AE%B0%E5%BD%95/" rel="tag">项目记录</a>
+		</div>
+	
+</article>
+
+	<div id="share_container">
+	<div id="share" data-initialized="true">
+		<a class="no-pjax icon-wechat" tooltip="分享到微信">
+			<button class="btn btn-icon btn-success">
+				<span class="btn-inner--icon"><i class="fa fa-weixin"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-douban" tooltip="分享到豆瓣">
+			<button class="btn btn-icon btn-primary" style="background: #209261;border: none;">
+				豆
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-qq" tooltip="分享到 QQ">
+			<button class="btn btn-icon btn-primary" style="background: #2196f3;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-qq"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-qzone" tooltip="分享到 QQ 空间">
+			<button class="btn btn-icon btn-primary" style="background: #ffc107;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-star"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-weibo" tooltip="分享到微博">
+			<button class="btn btn-icon btn-warning">
+				<span class="btn-inner--icon"><i class="fa fa-weibo"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-facebook" tooltip="分享到 Facebook">
+			<button class="btn btn-icon btn-primary" style="background: #283593;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-facebook"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-twitter" tooltip="分享到 Twitter">
+			<button class="btn btn-icon btn-primary" style="background: #03a9f4;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-telegram" href="https://telegram.me/share/url?url=http://example.com/2024/06/23/%E6%B1%87%E7%BC%96%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/&text=汇编实验报告" tooltip="分享到 Telegram">
+			<button class="btn btn-icon btn-primary" style="background: #42a5f5;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-telegram"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-copy-link" id="share_copy_link" tooltip="复制链接">
+			<button class="btn btn-icon btn-default">
+				<span class="btn-inner--icon"><i class="fa fa-link"></i></span>
+			</button>
+		</a>
+	</div>
+	<button id="share_show" class="btn btn-icon btn-primary" tooltip="分享">
+		<span class="btn-inner--icon"><i class="fa fa-share"></i></span>
+	</button>
+</div>
+<script type="text/javascript">
+	socialShare("#share", {
+	    title : '汇编实验报告',
+	    description : `汇编实验报告question1: 查找匹配字符串1.设计说明：下面是比较过程中寄存器的使用：
+si：...`,
+	    wechatQrcodeTitle : "分享到微信",
+	    wechatQrcodeHelper : '微信扫描二维码',
+	    source : 'http://example.com/2024/06/23/%E6%B1%87%E7%BC%96%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/'
+	});
+	$("#share_show")[0].onclick = function(){
+		$("#share_container").addClass("opened");
+	};
+	$("#share_copy_link")[0].onclick = function(){
+		let input = document.createElement('input');
+		document.body.appendChild(input);
+		input.setAttribute("value", window.location.href);
+		input.setAttribute("readonly", "readonly");
+		input.setAttribute("style", "opacity: 0;mouse-events:none;");
+		input.select();
+		if (document.execCommand('copy')){
+			iziToast.show({
+				title: '链接已复制',
+				message: "链接已复制到剪贴板",
+				class: 'shadow',
+				position: 'topRight',
+				backgroundColor: '#2dce89',
+				titleColor: '#ffffff',
+				messageColor: '#ffffff',
+				iconColor: '#ffffff',
+				progressBarColor: '#ffffff',
+				icon: 'fa fa-check',
+				timeout: 5000
+			});
+		}else{
+			iziToast.show({
+				title: '复制失败',
+				message: "请手动复制链接",
+				class: 'shadow',
+				position: 'topRight',
+				backgroundColor: '#f5365c',
+				titleColor: '#ffffff',
+				messageColor: '#ffffff',
+				iconColor: '#ffffff',
+				progressBarColor: '#ffffff',
+				icon: 'fa fa-close',
+				timeout: 5000
+			});
+		}
+		document.body.removeChild(input);
+	};
+</script>
+
+
+
+
+
+<div class="post-navigation card shadow-sm"><div class="post-navigation-item post-navigation-pre"></div><div class="post-navigation-item post-navigation-next"><span class="page-navigation-extra-text">下一篇 <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span><a href="/2024/06/10/%E8%87%B4%E5%88%80%E5%89%91%E5%BD%92%E9%9E%98%E8%80%85/" rel="next"> 致刀剑归鞘者</a></div></div>
+
+
+
+
+		
+		
+		
+		
+
+					<footer id="footer" class="site-footer card shadow-sm border-0">
+						
+						<div>Theme <a target="_blank" rel="noopener" href="https://github.com/solstice23/hexo-theme-argon"><strong>Argon</strong></a> | Powered by Hexo</div>
+						<span id="busuanzi_container_site_uv">
+							本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+						</span>
+					</footer>
+				</main>
+			</div>
+		</div>
+		
+<script src="/argontheme.js"></script>
+
+		
+			<script>
+				window.MathJax = {
+					tex: {
+						inlineMath: [["$", "$"], ["\\\\(", "\\\\)"]],
+						displayMath: [['$$','$$']],
+						processEscapes: true,
+						packages: {'[+]': ['noerrors']}
+					},
+					options: {
+						skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+						ignoreHtmlClass: 'tex2jax_ignore',
+						processHtmlClass: 'tex2jax_process'
+					},
+					loader: {
+						load: ['[tex]/noerrors']
+					}
+				};
+			</script>
+			<script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" id="MathJax-script" async></script>
+		
+		
+		
+
+		
+
+	</div>
+</div>
+<noscript>
+	<style>
+		article img.lazyload[src^="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPg"]{display: none;}
+		.comment-item-text .comment-sticker.lazyload{display: none;}
+	</style>
+</noscript>
+</body>
+
+
+
+</html>
+
